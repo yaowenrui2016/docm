@@ -20,8 +20,8 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.rui</groupId>
-			<artifactId>rui-common-base</artifactId>
+			<groupId>indi.rui</groupId>
+			<artifactId>common-base</artifactId>
 			<version>0.0.1</version>
 		</dependency>
 		<dependency>
