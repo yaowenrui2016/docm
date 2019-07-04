@@ -1,7 +1,6 @@
 server:
   port: 8090
 
-
 spring:
   datasource:
     url: jdbc:mysql://study.rui.ubuntu:3306/docm?characterEncoding=utf8&useSSL=false
