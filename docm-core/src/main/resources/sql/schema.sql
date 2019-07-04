@@ -1,0 +1,1 @@
+CREATE DATABASE IF NOT EXISTS com_rui_study_micro_user DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci;
