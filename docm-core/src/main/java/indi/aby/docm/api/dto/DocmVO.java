@@ -1,13 +1,11 @@
-package indi.aby.docm.core.entity;
+package indi.aby.docm.api.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 @Getter
 @Setter
-@ToString
-public class DocmEntity {
+public class DocmVO {
     private String project;
     private String contractNum;
 }

@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS t_account (
+CREATE TABLE IF NOT EXISTS t_user (
     account_id    VARCHAR(32) NOT NULL COMMENT '账号ID',
     username      VARCHAR(32) DEFAULT NULL COMMENT '用户名',
     nickname      VARCHAR(50) DEFAULT NULL COMMENT '昵称',
