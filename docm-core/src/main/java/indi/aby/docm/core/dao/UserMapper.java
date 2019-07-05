@@ -8,6 +8,6 @@ import java.util.List;
 
 @Mapper
 public interface UserMapper {
-    void add();
+    void add(UserEntity userEntity);
     List<UserEntity> list(QueryRequest queryRequest);
 }

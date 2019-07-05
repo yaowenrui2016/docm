@@ -1,5 +1,6 @@
 package indi.aby.docm.core.config;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,7 +9,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
-@MapperScan
+@MapperScan(basePackages = {"indi.aby.docm"}, annotationClass = Mapper.class)
 public class AppConfiguration {
 
     private CorsConfiguration buildConfig() {
