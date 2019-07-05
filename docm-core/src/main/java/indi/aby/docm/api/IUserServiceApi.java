@@ -1,14 +1,8 @@
 package indi.aby.docm.api;
 
 import indi.aby.docm.api.dto.UserVO;
-import indi.rui.common.base.dto.QueryRequest;
-import indi.rui.common.base.dto.field.IFieldId;
+import indi.rui.common.web.service.IApi;
 
-import java.util.List;
+public interface IUserServiceApi extends IApi<UserVO> {
 
-public interface IUserServiceApi {
-    void add(UserVO userVO);
-    List<UserVO> list(QueryRequest queryRequest);
-    UserVO get(IFieldId fieldId);
-    void delete(IFieldId fieldId);
 }

@@ -5,8 +5,10 @@ import indi.aby.docm.api.dto.UserVO;
 import indi.aby.docm.core.dao.UserMapper;
 import indi.aby.docm.core.entity.UserEntity;
 import indi.rui.common.base.dto.QueryRequest;
-import indi.rui.common.base.dto.field.IFieldId;
-import indi.rui.common.base.service.AbstractService;
+import indi.rui.common.base.field.IFieldId;
+import indi.rui.common.base.field.IFieldIds;
+import indi.rui.common.base.util.RandomUtil;
+import indi.rui.common.web.service.AbstractService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,9 +25,14 @@ public class UserService extends AbstractService implements IUserServiceApi {
     public void add(UserVO userVO) {
         UserEntity entity = new UserEntity();
         voToEntity(userVO, entity);
-        entity.setId(RandomUtil.getUuid());
+        entity.setId(RandomUtil.nextUserId());
         userMapper.add(entity);
         log.info("Add a user success");
+    }
+
+    @Override
+    public void edit(UserVO userVO) {
+
     }
 
     @Override
@@ -40,6 +47,11 @@ public class UserService extends AbstractService implements IUserServiceApi {
 
     @Override
     public void delete(IFieldId fieldId) {
+
+    }
+
+    @Override
+    public void batchedDelete(IFieldIds idsVO) {
 
     }
 }
