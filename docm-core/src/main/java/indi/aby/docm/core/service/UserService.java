@@ -23,8 +23,9 @@ public class UserService extends AbstractService implements IUserServiceApi {
     public void add(UserVO userVO) {
         UserEntity entity = new UserEntity();
         voToEntity(userVO, entity);
+        entity.setId(RandomUtil.getUuid());
         userMapper.add(entity);
-        log.info("add..");
+        log.info("Add a user success");
     }
 
     @Override
