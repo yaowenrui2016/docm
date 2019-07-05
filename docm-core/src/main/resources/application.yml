@@ -3,7 +3,12 @@ server:
 
 spring:
   datasource:
-    url: jdbc:mysql://study.rui.ubuntu:3306/docm?characterEncoding=utf8&useSSL=false
+    name: aby_docm
+    url: jdbc:mysql://study.rui.ubuntu:3306/aby_docm?characterEncoding=utf8&useSSL=false
     username: root
     password: password
     driver-class-name: com.mysql.jdbc.Driver
+
+logging:
+  level:
+    root: info

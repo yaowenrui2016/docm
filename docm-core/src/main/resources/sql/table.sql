@@ -1,18 +1,11 @@
-CREATE TABLE IF NOT EXISTS t_user (
-    account_id    VARCHAR(32) NOT NULL COMMENT '账号ID',
-    username      VARCHAR(32) DEFAULT NULL COMMENT '用户名',
-    nickname      VARCHAR(50) DEFAULT NULL COMMENT '昵称',
-    email         VARCHAR(32) DEFAULT NULL COMMENT '邮箱',
-    cellphone     VARCHAR(15) DEFAULT NULL COMMENT '手机',
-    password      VARCHAR(32) NOT NULL COMMENT '密码',
-    state         TINYINT(4)  DEFAULT 1 COMMENT '状态：1-正常 8-冻结',
-    create_at     TIMESTAMP DEFAULT CURRENT_TIMESTAMP COMMENT '注册账号时间',
-    PRIMARY KEY (account_id)
-) DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci;
-
-CREATE TABLE IF NOT EXISTS t_sync_method (
-    method_id     INT(10) AUTO_INCREMENT COMMENT '方法ID',
-    method_name   VARCHAR(32) DEFAULT NULL COMMENT '方法名',
-    PRIMARY KEY (method_id),
-    UNIQUE KEY `UNIQUE_METHOD_NAME` (method_name)
-) DEFAULT CHARSET utf8mb4 COLLATE utf8mb4_general_ci;
+create table if not exists t_user (
+    `id` varchar(64) not null comment 'id',
+    `name` varchar(50) default null comment '名称',
+    username varchar(50) default null comment '登录名',
+    password varchar(50) default null comment '密码',
+    phone varchar(50) default null comment '手机',
+    state bit default b'1' comment '状态：1-正常 0-逻辑删除',
+    create_time  timestamp default current_timestamp comment '创建时间',
+    last_modify_time timestamp default current_timestamp comment '左后修改时间',
+    PRIMARY KEY (id)
+) default charset utf8mb4 collate utf8mb4_general_ci;
