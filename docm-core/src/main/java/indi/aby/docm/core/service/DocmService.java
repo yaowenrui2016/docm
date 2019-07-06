@@ -23,8 +23,7 @@ public class DocmService extends AbstractService implements IDocmServiceApi {
 
     @Override
     public void add(DocmVO docmVO) {
-        DocmEntity entity = new DocmEntity();
-        voToEntity(docmVO, entity);
+        DocmEntity entity = copyProperties(docmVO, DocmEntity.class);
         entity.setId(RandomUtil.uuid());
         docmMapper.add(entity);
         log.info("Add a docm success");
@@ -37,7 +36,7 @@ public class DocmService extends AbstractService implements IDocmServiceApi {
 
     @Override
     public List<DocmVO> list(QueryRequest queryRequest) {
-        return null;
+        return copyPropertiesForList(docmMapper.findAll(queryRequest), DocmVO.class);
     }
 
     @Override
