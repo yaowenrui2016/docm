@@ -5,6 +5,7 @@ import indi.aby.docm.api.dto.DocmVO;
 import indi.aby.docm.core.dao.DocmMapper;
 import indi.aby.docm.core.entity.DocmEntity;
 import indi.rui.common.base.dto.QueryRequest;
+import indi.rui.common.base.dto.QueryResult;
 import indi.rui.common.base.field.IFieldId;
 import indi.rui.common.base.field.IFieldIds;
 import indi.rui.common.base.util.RandomUtil;
@@ -35,8 +36,11 @@ public class DocmService extends AbstractService implements IDocmServiceApi {
     }
 
     @Override
-    public List<DocmVO> list(QueryRequest queryRequest) {
-        return copyPropertiesForList(docmMapper.findAll(queryRequest), DocmVO.class);
+    public QueryResult<DocmVO> list(QueryRequest queryRequest) {
+        List<DocmVO> vos = copyPropertiesForList(
+                docmMapper.findAll(queryRequest), DocmVO.class);
+        return new QueryResult<DocmVO>(vos.size(), queryRequest.getPageSize(),
+                queryRequest.getCurrentPage(), vos);
     }
 
     @Override

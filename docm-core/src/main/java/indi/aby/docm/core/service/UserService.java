@@ -5,6 +5,7 @@ import indi.aby.docm.api.dto.UserVO;
 import indi.aby.docm.core.dao.UserMapper;
 import indi.aby.docm.core.entity.UserEntity;
 import indi.rui.common.base.dto.QueryRequest;
+import indi.rui.common.base.dto.QueryResult;
 import indi.rui.common.base.field.IFieldId;
 import indi.rui.common.base.field.IFieldIds;
 import indi.rui.common.base.util.RandomUtil;
@@ -35,7 +36,7 @@ public class UserService extends AbstractService implements IUserServiceApi {
     }
 
     @Override
-    public List<UserVO> list(QueryRequest queryRequest) {
+    public QueryResult<UserVO> list(QueryRequest queryRequest) {
         return null;
     }
 

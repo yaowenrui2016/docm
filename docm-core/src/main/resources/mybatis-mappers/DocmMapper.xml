@@ -13,11 +13,18 @@
         <result column="credential_time" property="credentialTime"/>
         <result column="money" property="money"/>
         <result column="state" property="state"/>
-        <result column="create_time" property="createTime" typeHandler=""/>
-        <result column="last_modify_time" property="lastModifyTime"/>
+        <result column="create_time" property="createTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
+        <result column="last_modify_time" property="lastModifyTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
     </resultMap>
     <insert id="add">
-        insert into t_docm (id, name, project_name) values (#{id}, #{name}, #{projectName})
+        insert into t_docm (id, name, project_name,
+        project_type, company, contract_num,
+        contract_time, credential_num, credential_time,
+        money, doc_name, doc_path)
+        values (#{id}, #{name}, #{projectName},
+        #{projectType}, #{company}, #{contractNum},
+        #{contractTime}, #{credentialNum}, #{credentialTime},
+        #{money}, #{docName}, #{docPath})
     </insert>
     <update id="update">
         update t_docm
@@ -28,7 +35,7 @@
         </if>
     </update>
     <select id="findAll" resultMap="DocmEntity">
-        select * from t_docm
+        select * from t_docm order by create_time asc
     </select>
     <select id="findById" resultMap="DocmEntity">
         select * from t_docm where id = #{id}
