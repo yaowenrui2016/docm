@@ -35,14 +35,8 @@ public class DocmController {
     }
 
     @DeleteMapping
-    public Response<?> delete(@RequestBody IdVO idVO) {
-        docmServiceApi.delete(idVO);
-        return Response.ok();
-    }
-
-    @DeleteMapping("list")
-    public Response<?> batchedDelete(@ModelAttribute IdsVO idsVO) {
-        docmServiceApi.batchedDelete(idsVO);
+    public Response<?> delete(@ModelAttribute IdsVO idsVO) {
+        docmServiceApi.delete(idsVO);
         return Response.ok();
     }
 }

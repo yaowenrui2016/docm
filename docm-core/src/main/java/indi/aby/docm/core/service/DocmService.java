@@ -4,6 +4,7 @@ import indi.aby.docm.api.IDocmServiceApi;
 import indi.aby.docm.api.dto.DocmVO;
 import indi.aby.docm.core.dao.DocmMapper;
 import indi.aby.docm.core.entity.DocmEntity;
+import indi.rui.common.base.dto.IdVO;
 import indi.rui.common.base.dto.QueryRequest;
 import indi.rui.common.base.dto.QueryResult;
 import indi.rui.common.base.field.IFieldId;
@@ -13,6 +14,7 @@ import indi.rui.common.web.service.AbstractService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
@@ -27,7 +29,6 @@ public class DocmService extends AbstractService implements IDocmServiceApi {
         DocmEntity entity = copyProperties(docmVO, DocmEntity.class);
         entity.setId(RandomUtil.uuid());
         docmMapper.add(entity);
-        log.info("Add a docm success");
     }
 
     @Override
@@ -37,24 +38,24 @@ public class DocmService extends AbstractService implements IDocmServiceApi {
 
     @Override
     public QueryResult<DocmVO> list(QueryRequest queryRequest) {
+        Integer total = docmMapper.findTotalNum(queryRequest);
         List<DocmVO> vos = copyPropertiesForList(
                 docmMapper.findAll(queryRequest), DocmVO.class);
-        return new QueryResult<DocmVO>(vos.size(), queryRequest.getPageSize(),
-                queryRequest.getCurrentPage(), vos);
+        return new QueryResult<>(total, vos);
     }
 
     @Override
     public DocmVO get(IFieldId fieldId) {
-        return null;
+        return copyProperties(docmMapper.findById(fieldId), DocmVO.class);
     }
 
     @Override
-    public void delete(IFieldId fieldId) {
-
-    }
-
-    @Override
-    public void batchedDelete(IFieldIds idsVO) {
-
+    public void delete(IFieldIds fieldIds) {
+        List<String> ids = fieldIds.getIds();
+        if (ids != null && !ids.isEmpty()) {
+            for (String id : ids) {
+                docmMapper.delete(IdVO.ofId(id));
+            }
+        }
     }
 }

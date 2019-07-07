@@ -16,6 +16,7 @@
         <result column="create_time" property="createTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
         <result column="last_modify_time" property="lastModifyTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
     </resultMap>
+
     <insert id="add">
         insert into t_docm (id, name, project_name,
         project_type, company, contract_num,
@@ -26,24 +27,57 @@
         #{contractTime}, #{credentialNum}, #{credentialTime},
         #{money}, #{docName}, #{docPath})
     </insert>
+
     <update id="update">
         update t_docm
-        <if test="name != null">
-            <set>
-                name = #{name}
-            </set>
-        </if>
+        <set>
+            <if test="projectName != null || nullAbles.projectName">
+                project_name = #{projectName},
+            </if>
+            <if test="projectName != null || nullAbles.projectName">
+                project_name = #{projectName},
+            </if>
+            <if test="company != null || nullAbles.company">
+                company = #{company},
+            </if>
+        </set>
     </update>
-    <select id="findAll" resultMap="DocmEntity">
-        select * from t_docm order by create_time asc
+
+    <select id="findTotalNum" resultType="java.lang.Integer">
+        select count(id) from t_docm
+        where state = '1'
+        <if test="conditions.projectName != null">
+            and project_name like '%${conditions.projectName}%'
+        </if>
+        <if test="conditions.projectType != null">
+            and project_type = #{conditions.projectType}
+        </if>
+        <if test="conditions.company != null">
+            and company = #{conditions.company}
+        </if>
     </select>
+
+    <select id="findAll" resultMap="DocmEntity">
+        select * from t_docm
+        where state = '1'
+        <if test="conditions.projectName != null">
+            and project_name like '%${conditions.projectName}%'
+        </if>
+        <if test="conditions.projectType != null">
+            and project_type = #{conditions.projectType}
+        </if>
+        <if test="conditions.company != null">
+            and company = #{conditions.company}
+        </if>
+        order by create_time desc
+        limit #{offset}, #{pageSize}
+    </select>
+
     <select id="findById" resultMap="DocmEntity">
         select * from t_docm where id = #{id}
     </select>
+
     <delete id="delete">
         delete from t_docm where id = #{id}
-    </delete>
-    <delete id="batchedDelete">
-        delete from t_docm where id in #{ids}
     </delete>
 </mapper>
