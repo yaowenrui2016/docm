@@ -9,6 +9,12 @@ spring:
     password: password
     driver-class-name: com.mysql.jdbc.Driver
 
+  servlet:
+    multipart:
+      max-file-size: 4MB
+      max-request-size: 16MB
+
 logging:
   level:
+    indi.aby.docm.core.dao: debug
     root: info

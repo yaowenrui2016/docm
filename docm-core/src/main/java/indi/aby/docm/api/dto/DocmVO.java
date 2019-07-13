@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -49,7 +50,8 @@ public class DocmVO extends BaseVO {
      */
     private BigDecimal money;
 
-    private String docName;
-
-    private String docPath;
+    /**
+     * 附件
+     */
+    protected List<AttachmentVO> attachments;
 }

@@ -6,7 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.util.List;
 
 @Getter
 @Setter
@@ -52,7 +52,8 @@ public class DocmEntity extends BaseEntity {
      */
     private BigDecimal money;
 
-    private String docName;
-
-    private String docPath;
+    /**
+     * 附件
+     */
+    private List<AttachmentEntity> attachments;
 }

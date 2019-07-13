@@ -21,11 +21,11 @@
         insert into t_docm (id, name, project_name,
         project_type, company, contract_num,
         contract_time, credential_num, credential_time,
-        money, doc_name, doc_path)
+        money)
         values (#{id}, #{name}, #{projectName},
         #{projectType}, #{company}, #{contractNum},
         #{contractTime}, #{credentialNum}, #{credentialTime},
-        #{money}, #{docName}, #{docPath})
+        #{money})
     </insert>
 
     <update id="update">
@@ -40,36 +40,72 @@
             <if test="company != null || nullAbles.company">
                 company = #{company},
             </if>
+            <if test="contractNum != null || nullAbles.contractNum">
+                contract_num = #{contractNum},
+            </if>
+            <if test="contractTime != null || nullAbles.contractTime">
+                contract_time = #{contractTime},
+            </if>
+            <if test="credentialNum != null || nullAbles.credentialNum">
+                credential_num = #{credentialNum},
+            </if>
+            <if test="credentialTime != null || nullAbles.credentialTime">
+                credential_time = #{credentialTime},
+            </if>
+            <if test="money != null || nullAbles.money">
+                money = #{money},
+            </if>
         </set>
+        where id = #{id}
     </update>
 
     <select id="findTotalNum" resultType="java.lang.Integer">
         select count(id) from t_docm
         where state = '1'
-        <if test="conditions.projectName != null">
-            and project_name like '%${conditions.projectName}%'
+        <if test="conditions.keywords != null and conditions.keywords.size > 0">
+            and(
+            <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                project_name like '%${keyword}%'
+            </foreach>
+            ||
+            <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                company like '%${keyword}%'
+            </foreach>
+            )
         </if>
         <if test="conditions.projectType != null">
             and project_type = #{conditions.projectType}
-        </if>
-        <if test="conditions.company != null">
-            and company = #{conditions.company}
         </if>
     </select>
 
     <select id="findAll" resultMap="DocmEntity">
         select * from t_docm
         where state = '1'
-        <if test="conditions.projectName != null">
-            and project_name like '%${conditions.projectName}%'
+        <if test="conditions.keywords != null and conditions.keywords.size > 0">
+            and(
+            <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                project_name like '%${keyword}%'
+            </foreach>
+            ||
+            <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                company like '%${keyword}%'
+            </foreach>
+            )
         </if>
         <if test="conditions.projectType != null">
             and project_type = #{conditions.projectType}
         </if>
-        <if test="conditions.company != null">
-            and company = #{conditions.company}
-        </if>
-        order by create_time desc
+        order by
+        <choose>
+            <when test="sorters.size > 0">
+                <foreach collection="sorters.entrySet()" index="key" item="value">
+                    ${key} ${value}
+                </foreach>
+            </when>
+            <otherwise>
+                create_time desc
+            </otherwise>
+        </choose>
         limit #{offset}, #{pageSize}
     </select>
 

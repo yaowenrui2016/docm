@@ -21,6 +21,16 @@ create table if not exists t_docm (
     `credential_num` varchar(50) default null comment '凭证号',
     `credential_time` varchar(50) default null comment '凭证时间',
     `money` bigint default null comment '金额',
+    `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
+    `create_time` timestamp default current_timestamp comment '创建时间',
+    `last_modify_time` timestamp null on update current_timestamp comment '左后修改时间',
+    PRIMARY KEY (id)
+) default charset utf8mb4 collate utf8mb4_general_ci;
+
+create table if not exists t_attachment (
+    `id` varchar(32) not null comment 'id',
+    `docm_id` varchar(32) not null comment 'docm_id',
+    `name` varchar(50) default null comment '名称',
     `doc_name` varchar(256) default null comment '文档名称',
     `doc_path` varchar(256) default null comment '文档路径',
     `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
