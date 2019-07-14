@@ -12,7 +12,7 @@ create table if not exists t_user (
     PRIMARY KEY (id)
 ) default charset utf8mb4 collate utf8mb4_general_ci;
 delete from t_user where id = '190714112153000';
-insert into t_user(id, username, password, activate) values('190714112153000', 'admin', md5('Password_1'), b'1');
+insert into t_user(id, username, password, activate) values('190714112153000', 'admin', md5('1234'), b'1');
 
 create table if not exists t_docm (
     `id` varchar(32) not null comment 'id',
