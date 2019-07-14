@@ -11,9 +11,7 @@ import java.util.List;
 
 @Mapper
 public interface AttachmentMapper {
-    void add(
-            @Param("attachments")
-                    List<AttachmentEntity> attachments);
+    void add(@Param("attachments")  List<AttachmentEntity> attachments);
     void update(AttachmentEntity attachmentEntity);
     Integer findTotalNum(QueryRequest queryRequest);
     List<AttachmentEntity> findAll(QueryRequest queryRequest);
