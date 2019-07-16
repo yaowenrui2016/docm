@@ -9,7 +9,9 @@
     <delete id="delete"></delete>
     <select id="findTotalNum" resultType="java.lang.Integer"></select>
     <select id="findAll" resultType="indi.aby.docm.core.entity.UserEntity"></select>
-    <select id="findById" resultType="indi.aby.docm.core.entity.UserEntity"></select>
+    <select id="findById" resultType="indi.aby.docm.core.entity.UserEntity">
+        select * from t_user where id = #{id}
+    </select>
     <select id="findByUsername" resultType="indi.aby.docm.core.entity.UserEntity">
         select * from t_user where username = #{username}
     </select>
