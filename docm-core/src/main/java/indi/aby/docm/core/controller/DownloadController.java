@@ -1,7 +1,6 @@
 package indi.aby.docm.core.controller;
 
 import indi.aby.docm.api.IDownloadServiceApi;
-import indi.aby.docm.api.dto.AttachmentVO;
 import indi.rui.common.base.dto.IdVO;
 import indi.rui.common.base.dto.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +24,5 @@ public class DownloadController {
     @GetMapping
     public ResponseEntity download(@ModelAttribute IdVO idVO) {
         return downloadServiceApi.download(idVO);
-    }
-
-    @DeleteMapping
-    public Response<?> remove(@ModelAttribute AttachmentVO attachmentVO) {
-        downloadServiceApi.remove(attachmentVO);
-        return Response.ok();
     }
 }

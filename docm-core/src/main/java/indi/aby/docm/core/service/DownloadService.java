@@ -10,6 +10,7 @@ import indi.rui.common.base.field.IFieldId;
 import indi.rui.common.base.util.DateUtil;
 import indi.rui.common.base.util.FileUtil;
 import indi.rui.common.base.util.ZipUtil;
+import indi.rui.common.web.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +23,11 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static indi.aby.docm.api.util.ErrorCode.CREATING_FILE_DIRECTORY_FAILED;
 
 @Slf4j
 @Service
@@ -45,17 +49,15 @@ public class DownloadService implements IDownloadServiceApi, InitializingBean {
         File file = new File(filePath);
         if (!file.exists()) {
             if (!file.mkdirs()) {
-                throw new RuntimeException("创建文件目录失败");
+                throw new BizException(CREATING_FILE_DIRECTORY_FAILED);
             }
         }
-
         File zip = new File(zipTmpPath);
         if (!zip.exists()) {
             if (!zip.mkdirs()) {
                 throw new RuntimeException("创建暂存目录失败");
             }
         }
-
     }
 
     @Override
@@ -121,7 +123,28 @@ public class DownloadService implements IDownloadServiceApi, InitializingBean {
     }
 
     @Override
-    public void remove(AttachmentVO attachmentVO) {
-        FileUtil.remove(attachmentVO.getDocPath(), attachmentVO.getDocName());
+    public List<String> clean() {
+        List<String> cleanedFiles = new ArrayList<>();
+        File pathFile = new File(filePath);
+        if (pathFile.exists()) {
+            File[] dirs = pathFile.listFiles();
+            if (dirs != null && dirs.length > 0) {
+                cleanedFiles = Arrays.stream(dirs).filter(file -> {
+                    String docPath = filePath + File.separator + file.getName();
+                    String[] subFiles = file.list();
+                    if (subFiles != null && subFiles.length > 0) {
+                        String docName = subFiles[0];   // 一个目录只存一个文件
+                        AttachmentEntity attachmentEntity = attachmentMapper.findByPath(docPath, docName);
+                        return attachmentEntity == null;
+                    }
+                    return true;
+                }).map(file -> {
+                    String deleteFilePath = file.getAbsolutePath();
+                    FileUtil.deleteDir(deleteFilePath);
+                    return deleteFilePath;
+                }).collect(Collectors.toList());
+            }
+        }
+        return cleanedFiles;
     }
 }

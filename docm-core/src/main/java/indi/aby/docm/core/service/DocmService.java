@@ -74,11 +74,13 @@ public class DocmService extends AbstractService implements IDocmServiceApi {
         return doc;
     }
 
+    @Transactional
     @Override
     public void delete(IFieldIds fieldIds) {
         List<String> ids = fieldIds.getIds();
         if (ids != null && !ids.isEmpty()) {
             for (String id : ids) {
+                attachmentMapper.delete(IdVO.ofId(id));
                 docmMapper.delete(IdVO.ofId(id));
             }
         }

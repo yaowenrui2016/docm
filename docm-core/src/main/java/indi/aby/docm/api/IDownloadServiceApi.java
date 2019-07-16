@@ -10,5 +10,5 @@ import java.util.List;
 public interface IDownloadServiceApi {
     List<AttachmentVO> upload(List<MultipartFile> files);
     ResponseEntity download(IFieldId fieldId);
-    void remove(AttachmentVO attachmentVO);
+    List<String> clean();
 }

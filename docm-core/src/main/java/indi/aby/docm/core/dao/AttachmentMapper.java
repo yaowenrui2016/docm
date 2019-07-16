@@ -17,4 +17,6 @@ public interface AttachmentMapper {
     List<AttachmentEntity> findAll(QueryRequest queryRequest);
     List<AttachmentEntity> findById(IFieldId iFieldId);
     void delete(IFieldId iFieldId);
+
+    AttachmentEntity findByPath(String docPath, String docName);
 }
