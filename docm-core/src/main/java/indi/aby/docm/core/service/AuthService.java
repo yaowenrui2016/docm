@@ -51,6 +51,7 @@ public class AuthService extends AbstractService implements IAuthServiceApi {
         if (entity == null || !entity.getPassword().equals(vo.getPassword())) {
             throw new BizException(ErrorCode.USERNAME_OR_PASSWORD_WRONG);
         }
+        couldLogin(entity);     // 检查账号是否满足登录要求
         servletResponse.addHeader("X-AUTH-TOKEN", genToken(entity));
         return copyProperties(entity, UserSummaryVO.class);
     }
@@ -65,6 +66,15 @@ public class AuthService extends AbstractService implements IAuthServiceApi {
         }
     }
 
+    private void couldLogin(UserEntity entity) {
+        if (entity.isFrozen()) {
+            throw new BizException(ErrorCode.ACCOUNT_IS_FROZEN);
+        }
+        if (!entity.isActivate()) {
+            throw new BizException(ErrorCode.ACCOUNT_IS_NOT_ACTIVATED);
+        }
+    }
+
     @Override
     public UserSummaryVO parse(String token, HttpServletResponse servletResponse) {
         try {
@@ -74,6 +84,7 @@ public class AuthService extends AbstractService implements IAuthServiceApi {
             if (entity == null) {
                 throw new BizException(DefaultStatus.RECORD_NOT_EXISTS);
             }
+            couldLogin(entity); // 检查账号是否满足登录要求
             renewToken(claims, servletResponse);    // token续租
             return copyProperties(entity, UserSummaryVO.class);
         } catch (Exception e) {
@@ -82,8 +93,11 @@ public class AuthService extends AbstractService implements IAuthServiceApi {
     }
 
     private void renewToken(Claims claims, HttpServletResponse servletResponse) {
-        long past = System.currentTimeMillis() - claims.getIssuedAt().getTime();
-        long value = expireTime / renewRatio;
+        long startTime = claims.getIssuedAt().getTime();
+        long endTime = claims.getExpiration().getTime();
+        long past = System.currentTimeMillis() - startTime;
+        long expireInterval = endTime - startTime;
+        long value = expireInterval / renewRatio;
         if (past > value ) {   // 大于1/5的过期时间时续租
             servletResponse.addHeader("X-AUTH-TOKEN", genToken(IdVO.ofId((String) claims.get("id"))));
         }

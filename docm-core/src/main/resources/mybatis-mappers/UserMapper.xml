@@ -1,18 +1,104 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="indi.aby.docm.core.dao.UserMapper">
+    <resultMap id="UserEntity" type="indi.aby.docm.core.entity.UserEntity">
+        <id column="id" property="id" />
+        <result column="name" property="name" />
+        <result column="username" property="username"/>
+        <result column="password" property="password"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="activate" property="activate"/>
+        <result column="frozen" property="frozen"/>
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
+        <result column="last_modify_time" property="lastModifyTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
+    </resultMap>
     <insert id="add">
-        insert into t_user(id, name, username, password, phone)
-        values (#{id}, #{name}, #{username}, #{password}, #{phone})
+        insert into t_account(id, name, username, password, phone, email, activate)
+        values (#{id}, #{name}, #{username}, #{password}, #{phone}, #{email}, #{activate})
     </insert>
-    <update id="update"></update>
-    <delete id="delete"></delete>
-    <select id="findTotalNum" resultType="java.lang.Integer"></select>
-    <select id="findAll" resultType="indi.aby.docm.core.entity.UserEntity"></select>
-    <select id="findById" resultType="indi.aby.docm.core.entity.UserEntity">
-        select * from t_user where id = #{id}
+    <update id="update">
+        update t_account
+        <set>
+            <if test="username != null || nullAbles.username">
+                username = #{username},
+            </if>
+            <if test="password != null || nullAbles.password">
+                password = #{password},
+            </if>
+            <if test="phone != null || nullAbles.phone">
+                phone = #{phone},
+            </if>
+            <if test="email != null || nullAbles.email">
+                email = #{email},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+    <delete id="delete">
+        delete from t_account where id = #{id}
+    </delete>
+    <select id="findTotalNum" resultType="java.lang.Integer">
+        select count(id) from t_account
+        where state = '1' and isBuiltIn = b'0'
+        <if test="conditions.keywords != null and conditions.keywords.size > 0">
+            and(
+                <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                    username like '%${keyword}%'
+                </foreach>
+                ||
+                <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                    phone like '%${keyword}%'
+                </foreach>
+                ||
+                <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                    email like '%${keyword}%'
+                </foreach>
+            )
+        </if>
+        <if test="conditions.activate != null">
+            and activate = #{conditions.activate}
+        </if>
     </select>
-    <select id="findByUsername" resultType="indi.aby.docm.core.entity.UserEntity">
-        select * from t_user where username = #{username}
+    <select id="findAll" resultMap="UserEntity">
+        select * from t_account
+        where state = '1' and isBuiltIn = b'0'
+        <if test="conditions.keywords != null and conditions.keywords.size > 0">
+            and(
+            <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                username like '%${keyword}%'
+            </foreach>
+            ||
+            <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                phone like '%${keyword}%'
+            </foreach>
+            ||
+            <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                email like '%${keyword}%'
+            </foreach>
+            )
+        </if>
+        <if test="conditions.activate != null">
+            and activate = #{conditions.activate}
+        </if>
+        order by
+        <choose>
+            <when test="sorters.size > 0">
+                <foreach collection="sorters.entrySet()" index="key" item="value">
+                    ${key} ${value}
+                </foreach>
+            </when>
+            <otherwise>
+                create_time desc
+            </otherwise>
+        </choose>
+        limit #{offset}, #{pageSize}
+    </select>
+    <select id="findById" resultMap="UserEntity">
+        select * from t_account where id = #{id}
+    </select>
+    <select id="findByUsername" resultMap="UserEntity">
+        select * from t_account where username = #{username}
     </select>
 </mapper>

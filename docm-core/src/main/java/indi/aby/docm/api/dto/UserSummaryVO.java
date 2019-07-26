@@ -12,5 +12,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class UserSummaryVO extends BaseVO {
     private String username;
+    private String phone;
     private String email;
 }

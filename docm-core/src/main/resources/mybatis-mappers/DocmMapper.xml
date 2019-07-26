@@ -16,7 +16,6 @@
         <result column="create_time" property="createTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
         <result column="last_modify_time" property="lastModifyTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
     </resultMap>
-
     <insert id="add">
         insert into t_docm (id, name, project_name,
         project_type, company, contract_num,
@@ -27,7 +26,6 @@
         #{contractTime}, #{credentialNum}, #{credentialTime},
         #{money})
     </insert>
-
     <update id="update">
         update t_docm
         <set>
@@ -58,7 +56,6 @@
         </set>
         where id = #{id}
     </update>
-
     <select id="findTotalNum" resultType="java.lang.Integer">
         select count(id) from t_docm
         where state = '1'
@@ -77,7 +74,6 @@
             and project_type = #{conditions.projectType}
         </if>
     </select>
-
     <select id="findAll" resultMap="DocmEntity">
         select * from t_docm
         where state = '1'
@@ -108,11 +104,9 @@
         </choose>
         limit #{offset}, #{pageSize}
     </select>
-
     <select id="findById" resultMap="DocmEntity">
         select * from t_docm where id = #{id}
     </select>
-
     <delete id="delete">
         delete from t_docm where id = #{id}
     </delete>
