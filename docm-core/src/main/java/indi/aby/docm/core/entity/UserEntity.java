@@ -11,6 +11,6 @@ public class UserEntity extends BaseEntity {
     private String password;
     private String phone;
     private String email;
-    private boolean activate;
-    private boolean frozen;
+    private Boolean activate;
+    private Boolean frozen;
 }

@@ -1,8 +1,6 @@
 package indi.aby.docm.core.service;
 
 import indi.aby.docm.api.IUserServiceApi;
-import indi.aby.docm.api.dto.AttachmentVO;
-import indi.aby.docm.api.dto.DocmVO;
 import indi.aby.docm.api.dto.UserVO;
 import indi.aby.docm.core.dao.UserMapper;
 import indi.aby.docm.core.entity.UserEntity;
@@ -16,6 +14,7 @@ import indi.rui.common.web.service.AbstractService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -36,10 +35,14 @@ public class UserService extends AbstractService implements IUserServiceApi {
 
     @Override
     public void edit(UserVO userVO) {
-        UserEntity entity = copyProperties(userVO, UserEntity.class);
-        Map<String,Object> nullAbles = entity.getNullAbles();
+        Map<String,Object> nullAbles = userVO.getNullAbles();
         nullAbles.put("phone", true);
         nullAbles.put("email", true);
+        update(userVO);
+    }
+
+    protected void update(UserVO userVO) {
+        UserEntity entity = copyProperties(userVO, UserEntity.class);
         userMapper.update(entity);
     }
 
@@ -57,12 +60,27 @@ public class UserService extends AbstractService implements IUserServiceApi {
         return doc;
     }
 
+    @Transactional
     @Override
     public void delete(IFieldIds fieldIds) {
         List<String> ids = fieldIds.getIds();
         if (ids != null && !ids.isEmpty()) {
             for (String id : ids) {
                 userMapper.delete(IdVO.ofId(id));
+            }
+        }
+    }
+
+    @Transactional
+    @Override
+    public void freeze(IFieldIds fieldIds, boolean doFreeze) {
+        List<String> ids = fieldIds.getIds();
+        if (ids != null && !ids.isEmpty()) {
+            for (String id : ids) {
+                UserVO userVO = new UserVO();
+                userVO.setId(id);
+                userVO.setFrozen(doFreeze);
+                update(userVO);
             }
         }
     }

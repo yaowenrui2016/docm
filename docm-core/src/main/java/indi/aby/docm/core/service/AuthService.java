@@ -67,10 +67,10 @@ public class AuthService extends AbstractService implements IAuthServiceApi {
     }
 
     private void couldLogin(UserEntity entity) {
-        if (entity.isFrozen()) {
+        if (entity.getFrozen()) {
             throw new BizException(ErrorCode.ACCOUNT_IS_FROZEN);
         }
-        if (!entity.isActivate()) {
+        if (!entity.getActivate()) {
             throw new BizException(ErrorCode.ACCOUNT_IS_NOT_ACTIVATED);
         }
     }

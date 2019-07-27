@@ -40,4 +40,16 @@ public class UserController {
         userServiceApi.delete(idsVO);
         return Response.ok();
     }
+
+    @PostMapping("freeze")
+    public Response<?> freeze(@RequestBody IdsVO idsVO) {
+        userServiceApi.freeze(idsVO, true);
+        return Response.ok();
+    }
+
+    @PostMapping("unfreeze")
+    public Response<?> unfreeze(@RequestBody IdsVO idsVO) {
+        userServiceApi.freeze(idsVO, false);
+        return Response.ok();
+    }
 }

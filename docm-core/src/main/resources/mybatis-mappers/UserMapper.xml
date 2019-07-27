@@ -33,6 +33,12 @@
             <if test="email != null || nullAbles.email">
                 email = #{email},
             </if>
+            <if test="activate != null || nullAbles.activate">
+                activate = #{activate},
+            </if>
+            <if test="frozen != null || nullAbles.frozen">
+                frozen = #{frozen},
+            </if>
         </set>
         where id = #{id}
     </update>
