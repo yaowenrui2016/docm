@@ -10,7 +10,7 @@ create table if not exists t_account (
     `isBuiltIn` bit default b'0' comment '是否内置账号：1-内置 0-非内置',
     `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
     `create_time` timestamp default current_timestamp comment '创建时间',
-    `last_modify_time` timestamp null on update current_timestamp comment '左后修改时间',
+    `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',
     primary key (id),
     unique key (username)
 ) default charset utf8mb4 collate utf8mb4_general_ci;
@@ -30,8 +30,8 @@ create table if not exists t_docm (
     `money` bigint default null comment '金额',
     `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
     `create_time` timestamp default current_timestamp comment '创建时间',
-    `last_modify_time` timestamp null on update current_timestamp comment '左后修改时间',
-    PRIMARY KEY (id)
+    `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',
+    primary key (id)
 ) default charset utf8mb4 collate utf8mb4_general_ci;
 
 create table if not exists t_attachment (
@@ -42,6 +42,27 @@ create table if not exists t_attachment (
     `doc_path` varchar(256) default null comment '文档路径',
     `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
     `create_time` timestamp default current_timestamp comment '创建时间',
-    `last_modify_time` timestamp null on update current_timestamp comment '左后修改时间',
-    PRIMARY KEY (id)
+    `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',
+    primary key (id)
+) default charset utf8mb4 collate utf8mb4_general_ci;
+
+create table if not exists t_permission (
+    `id` varchar(32) not null comment 'id',
+    `name` varchar(50) default null comment '名称',
+    `module` varchar(50) default null comment '模块',
+    `desc` varchar(256) default null comment '描述',
+    `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
+    `create_time` timestamp default current_timestamp comment '创建时间',
+    `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',
+    primary key (id)
+) default charset utf8mb4 collate utf8mb4_general_ci;
+
+create table if not exists t_account_correlate_permission (
+    `id` int(20) auto_increment comment 'id',
+    `account_id` varchar(32) default null comment '账号id',
+    `permission_id` varchar(32) default null comment '权限id',
+    `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
+    `create_time` timestamp default current_timestamp comment '创建时间',
+    `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',
+    primary key (id)
 ) default charset utf8mb4 collate utf8mb4_general_ci;

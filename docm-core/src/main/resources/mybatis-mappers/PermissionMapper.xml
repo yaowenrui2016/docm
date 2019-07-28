@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="indi.aby.docm.core.permission.dao.PermissionMapper">
+    <resultMap id="PermissionEntity" type="indi.aby.docm.core.permission.entity.PermissionEntity">
+        <id column="id" property="id"/>
+        <result column="name" property="name" />
+        <result column="module" property="module" />
+        <result column="desc" property="desc" />
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
+        <result column="last_modify_time" property="lastModifyTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
+    </resultMap>
+    <insert id="add">
+        insert into t_permission(id, name, module, `desc`) values
+        <foreach collection="perms" item="perm" separator=",">
+            (#{perm.id}, #{perm.name}, #{perm.module}, #{perm.desc})
+        </foreach>
+    </insert>
+    <delete id="deleteAll">
+        delete from t_permission
+    </delete>
+</mapper>
