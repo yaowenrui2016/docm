@@ -53,4 +53,9 @@ public class AccountController {
         userServiceApi.freeze(idsVO, false);
         return Response.ok();
     }
+
+    @GetMapping("cku-username")
+    public Response<?> checkUniqueUsername(@ModelAttribute UserVO userVO) {
+        return Response.ok(userServiceApi.checkUniqueUsername(userVO));
+    }
 }

@@ -14,9 +14,24 @@
         <result column="create_time" property="createTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
         <result column="last_modify_time" property="lastModifyTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
     </resultMap>
+    <resultMap id="PermissionEntity" type="indi.aby.docm.core.permission.entity.PermissionEntity">
+        <id column="id" property="id"/>
+        <result column="name" property="name" />
+        <result column="module" property="module" />
+        <result column="desc" property="desc" />
+        <result column="state" property="state"/>
+        <result column="create_time" property="createTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
+        <result column="last_modify_time" property="lastModifyTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
+    </resultMap>
     <insert id="add">
         insert into t_account(id, name, username, password, phone, email, activate)
         values (#{id}, #{name}, #{username}, #{password}, #{phone}, #{email}, #{activate})
+    </insert>
+    <insert id="addCorrelatedPermission">
+        insert into t_account_correlate_permission(account_id, permission_id) values
+        <foreach collection="permissions" item="perm" separator=",">
+            (#{id}, #{perm.id})
+        </foreach>
     </insert>
     <update id="update">
         update t_account
@@ -44,6 +59,9 @@
     </update>
     <delete id="delete">
         delete from t_account where id = #{id}
+    </delete>
+    <delete id="deleteCorrelatedPermission">
+        delete from t_account_correlate_permission where account_id = #{id}
     </delete>
     <select id="findTotalNum" resultType="java.lang.Integer">
         select count(id) from t_account
@@ -106,5 +124,8 @@
     </select>
     <select id="findByUsername" resultMap="UserEntity">
         select * from t_account where username = #{username}
+    </select>
+    <select id="findCorrelatedPermission" resultMap="PermissionEntity">
+        select perm.* from t_permission perm inner join t_account_correlate_permission correlate on perm.id = correlate.permission_id where correlate.account_id = #{id}
     </select>
 </mapper>

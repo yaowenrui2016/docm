@@ -10,5 +10,6 @@ import java.util.List;
 @Mapper
 public interface PermissionMapper extends CommonMapper<PermissionEntity> {
     void add(@Param("perms") List<PermissionEntity> perms);
+    List<PermissionEntity> findAll();
     void deleteAll();
 }

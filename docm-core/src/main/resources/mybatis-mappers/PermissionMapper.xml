@@ -19,4 +19,7 @@
     <delete id="deleteAll">
         delete from t_permission
     </delete>
+    <select id="findAll" resultMap="PermissionEntity">
+        select * from t_permission limit 0, 1000
+    </select>
 </mapper>

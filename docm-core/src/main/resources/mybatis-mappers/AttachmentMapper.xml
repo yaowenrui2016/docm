@@ -13,8 +13,7 @@
     <insert id="add">
         insert into t_attachment(id, docm_id, doc_name, doc_path) values
         <foreach collection="attachments" item="attachment" separator=",">
-            (#{attachment.id}, #{attachment.docmId},
-            #{attachment.docName}, #{attachment.docPath})
+            (#{attachment.id}, #{attachment.docmId}, #{attachment.docName}, #{attachment.docPath})
         </foreach>
     </insert>
     <update id="update"></update>
