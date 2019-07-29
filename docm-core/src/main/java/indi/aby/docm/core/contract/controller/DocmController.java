@@ -28,7 +28,7 @@ public class DocmController {
     }
 
     @PostMapping("list")
-    @Permission(id = "DOCM_LIST_VIEW", name = "项目合同_删除权限", module = "项目合同", desc = "项目合同列表的查看")
+    @Permission(id = "DOCM_LIST_VIEW", name = "项目合同_列表查看权限", module = "项目合同", desc = "项目合同列表的查看")
     public Response<QueryResult<DocmVO>> list(@RequestBody QueryRequest queryRequest) {
         return Response.ok(docmServiceApi.list(queryRequest));
     }
@@ -39,7 +39,7 @@ public class DocmController {
     }
 
     @DeleteMapping
-    @Permission(id = "DOCM_DELETE_OPER", name = "项目合同_列表查看权限", module = "项目合同", desc = "项目合同数据的删除操作")
+    @Permission(id = "DOCM_DELETE_OPER", name = "项目合同_删除权限", module = "项目合同", desc = "项目合同数据的删除操作")
     public Response<?> delete(@ModelAttribute IdsVO idsVO) {
         docmServiceApi.delete(idsVO);
         return Response.ok();

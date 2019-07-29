@@ -19,7 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +37,9 @@ public class UserService extends AbstractService implements IUserServiceApi {
         UserEntity entity = copyProperties(userVO, UserEntity.class);
         entity.setId(RandomUtil.nextUserId());
         entity.setActivate(true);
-        userMapper.addCorrelatedPermission(entity); // 保存关联的权限
+        if (!CollectionUtils.isEmpty(entity.getPermissions())) {
+            userMapper.addCorrelatedPermission(entity); // 保存关联的权限
+        }
         userMapper.add(entity);
     }
 
@@ -46,7 +50,9 @@ public class UserService extends AbstractService implements IUserServiceApi {
         nullAbles.put("email", true);
         UserEntity entity = copyProperties(userVO, UserEntity.class);
         userMapper.deleteCorrelatedPermission(entity);  // 删除关联的权限
-        userMapper.addCorrelatedPermission(entity); // 保存关联的权限
+        if (!CollectionUtils.isEmpty(entity.getPermissions())) {
+            userMapper.addCorrelatedPermission(entity); // 保存关联的权限
+        }
         userMapper.update(entity);
     }
 
