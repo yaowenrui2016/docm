@@ -34,6 +34,7 @@ public class DocmController {
     }
 
     @GetMapping
+    @Permission(id = "DOCM_DETAIL_VIEW", name = "项目合同_详情查看权限", module = "项目合同", desc = "项目合同详情的查看")
     public Response<DocmVO> get(@ModelAttribute IdVO idVO) {
         return Response.ok(docmServiceApi.get(idVO));
     }

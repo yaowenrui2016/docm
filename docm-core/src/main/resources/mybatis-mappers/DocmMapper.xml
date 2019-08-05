@@ -32,8 +32,8 @@
             <if test="projectName != null || nullAbles.projectName">
                 project_name = #{projectName},
             </if>
-            <if test="projectName != null || nullAbles.projectName">
-                project_name = #{projectName},
+            <if test="projectType != null || nullAbles.projectType">
+                project_type = #{projectType},
             </if>
             <if test="company != null || nullAbles.company">
                 company = #{company},
