@@ -18,17 +18,18 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Slf4j
-@Component
 public class AuthFilter extends OncePerRequestFilter implements Ordered {
     /**
      * 开放的url
      */
-    @Value("${docm.auth.freeUrl:}")
     private String[] freeUrls;
 
-    @Autowired
     private IAuthServiceApi authServiceApi;
 
+    public AuthFilter(String[] freeUrls, IAuthServiceApi authServiceApi) {
+        this.freeUrls = freeUrls;
+        this.authServiceApi = authServiceApi;
+    }
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -39,7 +40,7 @@ public class AuthFilter extends OncePerRequestFilter implements Ordered {
             String token = request.getHeader("X-AUTH-TOKEN");
             try {
                 UserSummaryVO vo = authServiceApi.parse(token, response);
-                log.debug("XXX Request token is valid [{}]", vo.getUsername());
+                log.debug("Parse x-auth-token of '{}' success", vo.getUsername());
                 request.setAttribute("currentUser", vo);
                 filterChain.doFilter(request, response);
             } catch (Exception e) {

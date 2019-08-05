@@ -1,10 +1,14 @@
 package indi.aby.docm.config;
 
+import indi.aby.docm.api.IAuthServiceApi;
+import indi.aby.docm.core.auth.security.AuthFilter;
+import indi.aby.docm.core.auth.security.TEstFilter;
 import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -25,10 +29,20 @@ public class AppConfiguration {
     }
 
     @Bean
-    @Order(0)
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", buildConfig()); // 4
         return new CorsFilter(source);
+    }
+
+    @Bean
+    public AuthFilter authFilter(@Value("${docm.auth.freeUrl:}")String[] freeUrls,
+                                 @Autowired IAuthServiceApi authServiceApi) {
+        return new AuthFilter(freeUrls, authServiceApi);
+    }
+
+    @Bean
+    public TEstFilter tEstFilter() {
+        return new TEstFilter();
     }
 }
