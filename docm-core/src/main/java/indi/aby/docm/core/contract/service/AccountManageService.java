@@ -1,6 +1,6 @@
 package indi.aby.docm.core.contract.service;
 
-import indi.aby.docm.api.IUserServiceApi;
+import indi.aby.docm.api.IAccountManageServiceApi;
 import indi.aby.docm.api.dto.PermissionVO;
 import indi.aby.docm.api.dto.UserVO;
 import indi.aby.docm.core.contract.dao.UserMapper;
@@ -21,13 +21,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
 @Slf4j
 @Service
-public class UserService extends AbstractService implements IUserServiceApi {
+public class AccountManageService extends AbstractService implements IAccountManageServiceApi {
     @Autowired
     private UserMapper userMapper;
 

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -14,4 +16,6 @@ public class UserSummaryVO extends BaseVO {
     private String username;
     private String phone;
     private String email;
+    private List<PermissionVO> permissions;
+    private Boolean activate;
 }
