@@ -1,6 +1,6 @@
 package indi.aby.docm.api;
 
-import indi.aby.docm.api.dto.UserVO;
+import indi.aby.docm.api.account.UserVO;
 import indi.rui.common.base.field.IFieldIds;
 import indi.rui.common.web.service.IApi;
 

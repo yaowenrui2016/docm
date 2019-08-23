@@ -1,6 +1,6 @@
 package indi.aby.docm.api;
 
-import indi.aby.docm.api.dto.AttachmentVO;
+import indi.aby.docm.api.contract.AttachmentVO;
 import indi.rui.common.base.field.IFieldId;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;

@@ -1,6 +1,6 @@
 package indi.aby.docm.core.contract.job;
 
-import indi.aby.docm.core.contract.service.DownloadService;
+import indi.aby.docm.core.contract.DownloadService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;

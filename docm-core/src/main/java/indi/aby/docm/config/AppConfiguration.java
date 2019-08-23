@@ -1,21 +1,24 @@
 package indi.aby.docm.config;
 
 import indi.aby.docm.api.IAuthServiceApi;
+import indi.aby.docm.api.operlog.InitOperLogFilter;
 import indi.aby.docm.core.auth.security.AuthFilter;
-import indi.aby.docm.core.auth.security.TEstFilter;
 import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 @Configuration
 @EnableScheduling
+@EnableAspectJAutoProxy
 @MapperScan(basePackages = {"indi.aby.docm"},annotationClass = Mapper.class)
 public class AppConfiguration {
 
@@ -42,7 +45,7 @@ public class AppConfiguration {
     }
 
     @Bean
-    public TEstFilter tEstFilter() {
-        return new TEstFilter();
+    public InitOperLogFilter initOperLogFilter() {
+        return new InitOperLogFilter();
     }
 }

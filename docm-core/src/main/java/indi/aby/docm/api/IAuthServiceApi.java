@@ -1,7 +1,7 @@
 package indi.aby.docm.api;
 
-import indi.aby.docm.api.dto.UserSummaryVO;
-import indi.aby.docm.api.dto.UserVO;
+import indi.aby.docm.api.auth.UserSummaryVO;
+import indi.aby.docm.api.account.UserVO;
 
 import javax.servlet.http.HttpServletResponse;
 

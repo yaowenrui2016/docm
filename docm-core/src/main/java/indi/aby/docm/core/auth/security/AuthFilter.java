@@ -1,13 +1,11 @@
 package indi.aby.docm.core.auth.security;
 
 import indi.aby.docm.api.IAuthServiceApi;
-import indi.aby.docm.api.dto.UserSummaryVO;
+import indi.aby.docm.api.auth.UserSummaryVO;
+import indi.aby.docm.api.user.UserHelper;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Component;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -41,7 +39,7 @@ public class AuthFilter extends OncePerRequestFilter implements Ordered {
             try {
                 UserSummaryVO vo = authServiceApi.parse(token, response);
                 log.debug("Parse x-auth-token of '{}' success", vo.getUsername());
-                request.setAttribute("currentUser", vo);
+                UserHelper.setCurrentUser(request, vo);
                 filterChain.doFilter(request, response);
             } catch (Exception e) {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());

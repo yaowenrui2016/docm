@@ -66,3 +66,21 @@ create table if not exists t_account_correlate_permission (
     `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',
     primary key (id)
 ) default charset utf8mb4 collate utf8mb4_general_ci;
+
+create table if not exists t_oper_log (
+    `id` varchar(32) not null comment 'id',
+    `name` varchar(50) default null comment '操作名称',
+    `module` varchar(50) default null comment '模块',
+    `result` varchar(20) default null comment '结果',
+    `operator` varchar(32) default null comment '操作者',
+    `user_agent` varchar(255) default null comment '浏览器信息',
+    `ip` varchar(20) default null comment 'ip地址',
+    `method` varchar(20) default null comment 'HTTP方法',
+    `url` varchar(255) default null comment 'URL',
+    `status` bit default b'0' comment '日志状态：0-未查看 1-已查看',
+    `content` varchar(2000) default null comment '内容',
+    `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
+    `create_time` timestamp default current_timestamp comment '创建时间',
+    `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',
+    primary key (id)
+) default charset utf8mb4 collate utf8mb4_general_ci;
