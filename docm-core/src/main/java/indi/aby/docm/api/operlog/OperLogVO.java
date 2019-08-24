@@ -7,9 +7,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
-@AllArgsConstructor
-@NoArgsConstructor
 public class OperLogVO extends AbstractVO {
     private String module;
     private String result;

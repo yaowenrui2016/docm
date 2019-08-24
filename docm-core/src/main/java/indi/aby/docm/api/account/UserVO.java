@@ -10,7 +10,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 public class UserVO extends AbstractVO {
     private String username;
     private String password;

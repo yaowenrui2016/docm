@@ -29,7 +29,7 @@ public class DocmController {
 
     @PostMapping("list")
     @Permission(id = "DOCM_LIST_VIEW", name = "项目合同_列表查看权限", module = "项目合同", desc = "项目合同列表的查看")
-    public Response<QueryResult<DocmVO>> list(@RequestBody QueryRequest queryRequest) {
+    public Response<QueryResult<DocmVO>> list(@RequestBody QueryRequest<DocmVO> queryRequest) {
         return Response.ok(docmServiceApi.list(queryRequest));
     }
 

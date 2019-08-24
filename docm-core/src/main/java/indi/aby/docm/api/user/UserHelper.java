@@ -33,4 +33,8 @@ public class UserHelper {
         }
         return null;
     }
+
+    public static void removeCurrentUser() {
+        ThreadLocalUtil.remove(CURRENT_USER);
+    }
 }

@@ -10,7 +10,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@ToString
 public class DocmEntity extends BaseEntity {
     /**
      * 项目名称

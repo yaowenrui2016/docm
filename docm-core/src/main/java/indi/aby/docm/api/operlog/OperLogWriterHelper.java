@@ -58,7 +58,7 @@ public class OperLogWriterHelper implements BeanFactoryAware {
         doWrite();
     }
 
-    public static void write4Login(OperName operName, OperResult operResult, String module, String content) {
+    public static void write(OperName operName, OperResult operResult, String module, String content) {
         OperLogVO operLog = OperLogWriterHelper.get();
         operLog.setName(operName.getValue());
         operLog.setModule(module);

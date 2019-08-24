@@ -39,10 +39,12 @@ public class AuthFilter extends OncePerRequestFilter implements Ordered {
             try {
                 UserSummaryVO vo = authServiceApi.parse(token, response);
                 log.debug("Parse x-auth-token of '{}' success", vo.getUsername());
-                UserHelper.setCurrentUser(request, vo);
+                UserHelper.setCurrentUser(request, vo); // 保存当前用户到线程变量
                 filterChain.doFilter(request, response);
             } catch (Exception e) {
                 response.setStatus(HttpStatus.UNAUTHORIZED.value());
+            } finally {
+                UserHelper.removeCurrentUser(); // 移除线程变量的当前用户
             }
         } else {
             filterChain.doFilter(request, response);
