@@ -1,11 +1,7 @@
 package indi.aby.docm.core.contract;
 
-import indi.aby.docm.api.IDownloadServiceApi;
+import indi.aby.docm.api.contract.IDownloadServiceApi;
 import indi.aby.docm.api.contract.AttachmentVO;
-import indi.aby.docm.core.contract.AttachmentMapper;
-import indi.aby.docm.core.contract.DocmMapper;
-import indi.aby.docm.core.contract.AttachmentEntity;
-import indi.aby.docm.core.contract.DocmEntity;
 import indi.rui.common.base.field.IFieldId;
 import indi.rui.common.base.util.DateUtil;
 import indi.rui.common.base.util.FileUtil;

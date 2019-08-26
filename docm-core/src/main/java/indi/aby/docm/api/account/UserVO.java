@@ -1,16 +1,15 @@
 package indi.aby.docm.api.account;
 
+import indi.rui.common.web.BaseVO;
 import indi.aby.docm.api.permission.PermissionVO;
-import indi.rui.common.base.dto.AbstractVO;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.util.List;
 
 @Getter
 @Setter
-public class UserVO extends AbstractVO {
+public class UserVO extends BaseVO {
     private String username;
     private String password;
     private String phone;

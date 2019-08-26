@@ -1,8 +1,8 @@
 package indi.aby.docm.core.auth.security;
 
-import indi.aby.docm.api.IAuthServiceApi;
+import indi.aby.docm.api.auth.IAuthServiceApi;
 import indi.aby.docm.api.auth.UserSummaryVO;
-import indi.aby.docm.api.user.UserHelper;
+import indi.aby.docm.api.account.UserHelper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;

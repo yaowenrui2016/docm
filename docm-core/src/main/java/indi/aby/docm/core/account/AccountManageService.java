@@ -1,6 +1,6 @@
 package indi.aby.docm.core.account;
 
-import indi.aby.docm.api.IAccountManageServiceApi;
+import indi.aby.docm.api.account.IAccountManageServiceApi;
 import indi.aby.docm.api.permission.PermissionVO;
 import indi.aby.docm.api.account.UserVO;
 import indi.rui.common.base.dto.DefaultStatus;
@@ -12,7 +12,7 @@ import indi.rui.common.base.field.IFieldIds;
 import indi.rui.common.base.util.RandomUtil;
 import indi.rui.common.base.util.StringUtil;
 import indi.rui.common.web.exception.BizException;
-import indi.rui.common.web.service.AbstractService;
+import indi.rui.common.web.AbstractService;
 import indi.rui.common.web.util.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

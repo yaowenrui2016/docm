@@ -1,6 +1,6 @@
 package indi.aby.docm.config;
 
-import indi.aby.docm.api.IAuthServiceApi;
+import indi.aby.docm.api.auth.IAuthServiceApi;
 import indi.aby.docm.api.operlog.InitOperLogFilter;
 import indi.aby.docm.core.auth.security.AuthFilter;
 import org.apache.ibatis.annotations.Mapper;
@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;

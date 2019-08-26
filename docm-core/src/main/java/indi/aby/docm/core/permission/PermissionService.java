@@ -1,6 +1,6 @@
 package indi.aby.docm.core.permission;
 
-import indi.aby.docm.api.IPermissionServiceApi;
+import indi.aby.docm.api.permission.IPermissionServiceApi;
 import indi.aby.docm.api.permission.PermissionGroupedVO;
 import indi.aby.docm.api.permission.PermissionVO;
 import indi.rui.common.web.util.BeanUtil;

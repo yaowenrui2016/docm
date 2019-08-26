@@ -1,6 +1,6 @@
 package indi.aby.docm.core.permission;
 
-import indi.aby.docm.api.IPermissionServiceApi;
+import indi.aby.docm.api.permission.IPermissionServiceApi;
 import indi.aby.docm.api.permission.PermissionGroupedVO;
 import indi.rui.common.base.dto.Response;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,9 +1,8 @@
 package indi.aby.docm.core.contract;
 
-import indi.aby.docm.api.dto.BaseEntity;
+import indi.rui.common.web.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.util.List;

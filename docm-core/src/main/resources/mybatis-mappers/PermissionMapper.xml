@@ -12,7 +12,7 @@
     </resultMap>
     <insert id="add">
         insert into t_permission(id, name, module, `desc`) values
-        <foreach collection="perms" item="perm" separator=",">
+        <foreach collection="list" item="perm" separator=",">
             (#{perm.id}, #{perm.name}, #{perm.module}, #{perm.desc})
         </foreach>
     </insert>

@@ -1,6 +1,6 @@
 package indi.aby.docm.api.permission;
 
-import indi.rui.common.base.dto.AbstractVO;
+import indi.rui.common.web.BaseVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class PermissionGroupedVO extends AbstractVO {
+public class PermissionGroupedVO extends BaseVO {
     private String group;
     private List<PermissionVO> permissions;
 }

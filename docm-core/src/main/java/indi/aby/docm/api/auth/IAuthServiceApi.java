@@ -1,4 +1,4 @@
-package indi.aby.docm.api;
+package indi.aby.docm.api.auth;
 
 import indi.aby.docm.api.auth.UserSummaryVO;
 import indi.aby.docm.api.account.UserVO;

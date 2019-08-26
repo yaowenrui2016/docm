@@ -1,7 +1,6 @@
 package indi.aby.docm.core.contract;
 
-import indi.aby.docm.api.dto.BaseEntity;
-import indi.rui.common.base.dto.AbstractEntity;
+import indi.rui.common.web.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 

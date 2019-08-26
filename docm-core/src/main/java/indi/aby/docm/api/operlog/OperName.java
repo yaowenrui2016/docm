@@ -12,7 +12,7 @@ public enum OperName implements IEnum {
     UPLOAD("上传"),
     DOWNLOAD("下载"),
     LOGIN("登录"),
-    ;
+    MOD_PWD("修改密码");
 
     @Getter
     private String value;

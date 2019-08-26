@@ -1,7 +1,9 @@
 package indi.aby.docm.core.account;
 
-import indi.aby.docm.api.IAccountManageServiceApi;
+import indi.aby.docm.api.account.IAccountManageServiceApi;
 import indi.aby.docm.api.account.UserVO;
+import indi.aby.docm.api.operlog.OperName;
+import indi.aby.docm.api.operlog.annotation.OperLog;
 import indi.aby.docm.api.permission.Permission;
 import indi.rui.common.base.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +23,14 @@ public class AccountManageController {
     }
 
     @PostMapping
+    @OperLog(name = OperName.UPDATE, module = "account")
     public Response<?> edit(@RequestBody UserVO userVO) {
         accountManageServiceApi.edit(userVO);
         return Response.ok();
     }
 
     @PostMapping("list")
-    public Response<QueryResult<UserVO>> list(@RequestBody QueryRequest queryRequest) {
+    public Response<QueryResult<UserVO>> list(@RequestBody QueryRequest<UserVO> queryRequest) {
         return Response.ok(accountManageServiceApi.list(queryRequest));
     }
 

@@ -1,4 +1,4 @@
-package indi.aby.docm.api;
+package indi.aby.docm.api.permission;
 
 import indi.aby.docm.api.permission.PermissionGroupedVO;
 

@@ -1,17 +1,13 @@
 package indi.aby.docm.core.contract;
 
-import indi.aby.docm.api.IDocmServiceApi;
 import indi.aby.docm.api.contract.AttachmentVO;
 import indi.aby.docm.api.contract.DocmVO;
-import indi.aby.docm.core.contract.AttachmentMapper;
-import indi.aby.docm.core.contract.DocmMapper;
-import indi.aby.docm.core.contract.AttachmentEntity;
-import indi.aby.docm.core.contract.DocmEntity;
+import indi.aby.docm.api.contract.IDocmServiceApi;
 import indi.rui.common.base.dto.IdVO;
 import indi.rui.common.base.field.IFieldId;
 import indi.rui.common.base.field.IFieldIds;
 import indi.rui.common.base.util.RandomUtil;
-import indi.rui.common.web.service.AbstractService;
+import indi.rui.common.web.AbstractService;
 import indi.rui.common.web.util.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

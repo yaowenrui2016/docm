@@ -1,4 +1,4 @@
-package indi.aby.docm.api.user;
+package indi.aby.docm.api.account;
 
 import indi.aby.docm.api.auth.UserSummaryVO;
 import indi.aby.docm.api.util.ThreadLocalUtil;

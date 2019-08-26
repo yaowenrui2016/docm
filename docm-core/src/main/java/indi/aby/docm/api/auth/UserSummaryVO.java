@@ -1,7 +1,7 @@
 package indi.aby.docm.api.auth;
 
+import indi.rui.common.web.BaseVO;
 import indi.aby.docm.api.permission.PermissionVO;
-import indi.rui.common.base.dto.AbstractVO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserSummaryVO extends AbstractVO {
+public class UserSummaryVO extends BaseVO {
     private String username;
     private String phone;
     private String email;

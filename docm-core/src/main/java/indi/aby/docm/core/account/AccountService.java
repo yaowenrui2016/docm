@@ -1,6 +1,6 @@
 package indi.aby.docm.core.account;
 
-import indi.aby.docm.api.IAccountServiceApi;
+import indi.aby.docm.api.account.IAccountServiceApi;
 import indi.aby.docm.api.permission.PermissionVO;
 import indi.aby.docm.api.account.UserModPwdVO;
 import indi.aby.docm.api.auth.UserSummaryVO;

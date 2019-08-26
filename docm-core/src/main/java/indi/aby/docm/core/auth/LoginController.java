@@ -1,6 +1,6 @@
 package indi.aby.docm.core.auth;
 
-import indi.aby.docm.api.IAuthServiceApi;
+import indi.aby.docm.api.auth.IAuthServiceApi;
 import indi.aby.docm.api.account.UserVO;
 import indi.rui.common.base.dto.Response;
 import org.springframework.beans.factory.annotation.Autowired;

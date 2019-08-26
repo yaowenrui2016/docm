@@ -1,6 +1,6 @@
 package indi.aby.docm.core.account;
 
-import indi.aby.docm.api.dto.BaseEntity;
+import indi.rui.common.web.BaseEntity;
 import indi.aby.docm.core.permission.PermissionEntity;
 import lombok.Getter;
 import lombok.Setter;

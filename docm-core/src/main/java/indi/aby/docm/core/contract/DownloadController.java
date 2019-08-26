@@ -1,6 +1,6 @@
 package indi.aby.docm.core.contract;
 
-import indi.aby.docm.api.IDownloadServiceApi;
+import indi.aby.docm.api.contract.IDownloadServiceApi;
 import indi.aby.docm.api.permission.Permission;
 import indi.rui.common.base.dto.IdVO;
 import indi.rui.common.base.dto.Response;

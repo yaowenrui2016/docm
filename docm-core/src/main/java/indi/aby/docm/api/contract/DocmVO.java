@@ -1,6 +1,6 @@
 package indi.aby.docm.api.contract;
 
-import indi.rui.common.base.dto.AbstractVO;
+import indi.rui.common.web.BaseVO;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,7 +9,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class DocmVO extends AbstractVO {
+public class DocmVO extends BaseVO {
     /**
      * 项目名称
      */

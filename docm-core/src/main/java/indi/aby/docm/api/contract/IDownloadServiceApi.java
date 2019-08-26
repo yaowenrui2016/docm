@@ -1,4 +1,4 @@
-package indi.aby.docm.api;
+package indi.aby.docm.api.contract;
 
 import indi.aby.docm.api.contract.AttachmentVO;
 import indi.rui.common.base.field.IFieldId;
