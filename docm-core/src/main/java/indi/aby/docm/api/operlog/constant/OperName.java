@@ -1,4 +1,4 @@
-package indi.aby.docm.api.operlog;
+package indi.aby.docm.api.operlog.constant;
 
 import indi.rui.common.base.dto.IEnum;
 import lombok.Getter;
@@ -12,7 +12,9 @@ public enum OperName implements IEnum {
     UPLOAD("上传"),
     DOWNLOAD("下载"),
     LOGIN("登录"),
-    MOD_PWD("修改密码");
+    MOD_PWD("修改密码"),
+    FREEZE("冻结"),
+    UN_FREEZE("解冻");
 
     @Getter
     private String value;

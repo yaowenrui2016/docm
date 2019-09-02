@@ -1,13 +1,9 @@
-package indi.aby.docm.api.operlog.intercept;
+package indi.aby.docm.api.operlog;
 
-import indi.aby.docm.api.account.UserVO;
-import indi.aby.docm.api.auth.UserSummaryVO;
-import indi.aby.docm.api.operlog.OperLogWriterHelper;
-import indi.aby.docm.api.operlog.OperName;
-import indi.aby.docm.api.operlog.OperResult;
 import indi.aby.docm.api.operlog.annotation.OperLog;
+import indi.aby.docm.api.operlog.constant.OperResult;
+import indi.aby.docm.api.operlog.dto.OperLogItemVO;
 import indi.aby.docm.util.ModuleHelper;
-import indi.aby.docm.util.ResourceUtil;
 import indi.rui.common.base.dto.Response;
 import indi.rui.common.base.util.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +15,7 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 @Slf4j
 @Aspect
@@ -52,9 +49,9 @@ public class OperlogAspect {
         OperResult operResult = OperResult.SUCCESS;
         Map<Object, Object> content = new HashMap<>();
         try {
-            content.put("param", param);
+            content.put("param", OperLogItemVO.of(param));
             Response res = (Response) pjp.proceed();
-            content.put("data", res.getData());
+            Optional.ofNullable(res.getData()).map(data -> content.put("data", OperLogItemVO.of(data)));
             return res;
         } catch (Throwable t) {
             operResult = OperResult.FAILED;
@@ -69,28 +66,9 @@ public class OperlogAspect {
     /**
      * 登录-操作日志
      * @param pjp
-     * @throws Throwable
      */
-    @Around(value = "loginPC() && args(vo,..)", argNames = "vo")
-    public UserSummaryVO write4Login(ProceedingJoinPoint pjp, UserVO vo) throws Throwable {
-        OperResult operResult = OperResult.SUCCESS;
-        Map<Object, Object> content = new HashMap<>();
-        UserSummaryVO rtnVal;
-        String operator = null;
-        try {
-            content.put("data", vo);
-            operator = ResourceUtil.getString("default.unknown.operator");
-            rtnVal = (UserSummaryVO) pjp.proceed();
-            content.put("data", rtnVal);
-            operator = rtnVal.getUsername();
-            return rtnVal;
-        } catch (Throwable t) {
-            operResult = OperResult.FAILED;
-            content.put("error", t.getMessage());
-            throw t;
-        } finally {
-            OperLogWriterHelper.write(OperName.LOGIN, operResult, ModuleHelper.getModuleName(UserSummaryVO.class),
-                    JsonUtil.encode(content), operator);
-        }
+    @Around(value = "controllerPC() && args(param,*) && @annotation(operLog)", argNames = "param,operLog")
+    public Response write4Login(ProceedingJoinPoint pjp, Object param, OperLog operLog) throws Throwable {
+        return write4General(pjp, param, operLog);
     }
 }

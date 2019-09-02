@@ -1,6 +1,6 @@
 package indi.aby.docm.api.operlog.annotation;
 
-import indi.aby.docm.api.operlog.OperName;
+import indi.aby.docm.api.operlog.constant.OperName;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

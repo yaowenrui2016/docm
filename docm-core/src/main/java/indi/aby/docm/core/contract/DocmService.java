@@ -7,6 +7,7 @@ import indi.rui.common.base.dto.IdVO;
 import indi.rui.common.base.field.IFieldId;
 import indi.rui.common.base.field.IFieldIds;
 import indi.rui.common.base.util.RandomUtil;
+import indi.rui.common.base.util.SnowflakeIDGenerator;
 import indi.rui.common.web.AbstractService;
 import indi.rui.common.web.util.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -28,7 +29,7 @@ public class DocmService extends AbstractService<DocmMapper, DocmEntity, DocmVO>
     @Override
     public void add(DocmVO docmVO) {
         DocmEntity doc = BeanUtil.copyProperties(docmVO, DocmEntity.class);
-        doc.setId(RandomUtil.uuid());
+        doc.setId(String.valueOf(SnowflakeIDGenerator.genId()));
         saveAttachments(doc);
         mapper.add(doc);
     }
@@ -45,7 +46,7 @@ public class DocmService extends AbstractService<DocmMapper, DocmEntity, DocmVO>
         List<AttachmentEntity> attachments = BeanUtil.copyPropertiesForList(doc.getAttachments(), AttachmentEntity.class);
         if (!CollectionUtils.isEmpty(attachments)) {
             attachmentMapper.add(attachments.stream().map(attachment -> {
-                attachment.setId(RandomUtil.uuid());
+                attachment.setId(String.valueOf(SnowflakeIDGenerator.genId()));
                 attachment.setDocmId(doc.getId());
                 return attachment;
             }).collect(Collectors.toList()));

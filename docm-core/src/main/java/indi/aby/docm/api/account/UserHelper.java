@@ -8,6 +8,10 @@ import javax.servlet.http.HttpServletRequest;
 public class UserHelper {
     public static final String CURRENT_USER = "threadVar.currentUser";
 
+    public static void setCurrentUser(UserSummaryVO vo) {
+        setCurrentUser(null, vo);
+    }
+
     public static void setCurrentUser(HttpServletRequest request, UserSummaryVO vo) {
         if (vo == null) {
             return;

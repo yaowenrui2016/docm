@@ -1,11 +1,13 @@
-package indi.aby.docm.api.operlog;
+package indi.aby.docm.api.operlog.entity;
 
-import indi.rui.common.web.BaseVO;
+import indi.rui.common.base.dto.AbstractEntity;
 import lombok.*;
+
+import java.util.List;
 
 @Getter
 @Setter
-public class OperLogVO extends BaseVO {
+public class OperLogEntity extends AbstractEntity {
     private String module;
     private String result;
     private String operator;

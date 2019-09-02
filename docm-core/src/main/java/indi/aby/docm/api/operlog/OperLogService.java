@@ -1,5 +1,7 @@
 package indi.aby.docm.api.operlog;
 
+import indi.aby.docm.api.operlog.dto.OperLogVO;
+import indi.aby.docm.api.operlog.entity.OperLogEntity;
 import indi.rui.common.web.AbstractService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

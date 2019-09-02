@@ -2,7 +2,7 @@ package indi.aby.docm.core.contract;
 
 import indi.aby.docm.api.contract.IDocmServiceApi;
 import indi.aby.docm.api.contract.DocmVO;
-import indi.aby.docm.api.operlog.OperName;
+import indi.aby.docm.api.operlog.constant.OperName;
 import indi.aby.docm.api.operlog.annotation.OperLog;
 import indi.aby.docm.api.permission.Permission;
 import indi.rui.common.base.dto.*;

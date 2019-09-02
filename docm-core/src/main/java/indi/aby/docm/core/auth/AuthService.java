@@ -1,5 +1,6 @@
 package indi.aby.docm.core.auth;
 
+import indi.aby.docm.api.account.UserHelper;
 import indi.aby.docm.api.auth.IAuthServiceApi;
 import indi.aby.docm.api.auth.UserSummaryVO;
 import indi.aby.docm.api.account.UserVO;
@@ -53,7 +54,9 @@ public class AuthService implements IAuthServiceApi {
         }
         couldLogin(entity);     // 检查账号是否满足登录要求
         servletResponse.addHeader("X-AUTH-TOKEN", genToken(entity));
-        return BeanUtil.copyProperties(entity, UserSummaryVO.class);
+        UserSummaryVO rtn = BeanUtil.copyProperties(entity, UserSummaryVO.class);
+        UserHelper.setCurrentUser(rtn);
+        return rtn;
     }
 
     private String genToken(IFieldId fieldId) {

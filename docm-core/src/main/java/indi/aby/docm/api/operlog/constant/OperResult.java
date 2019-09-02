@@ -1,4 +1,4 @@
-package indi.aby.docm.api.operlog;
+package indi.aby.docm.api.operlog.constant;
 
 import indi.rui.common.base.dto.IEnum;
 import lombok.Getter;

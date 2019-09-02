@@ -1,9 +1,12 @@
 package indi.aby.docm.api.operlog;
 
 import indi.aby.docm.api.account.UserHelper;
+import indi.aby.docm.api.operlog.constant.OperName;
+import indi.aby.docm.api.operlog.constant.OperResult;
+import indi.aby.docm.api.operlog.dto.OperLogVO;
 import indi.aby.docm.api.util.ThreadLocalUtil;
 import indi.aby.docm.util.ResourceUtil;
-import indi.rui.common.base.util.RandomUtil;
+import indi.rui.common.base.util.SnowflakeIDGenerator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
@@ -56,7 +59,7 @@ public class OperLogWriterHelper implements BeanFactoryAware {
 
     private static OperLogVO build() {
         OperLogVO operLog = new OperLogVO();
-        operLog.setId(RandomUtil.uuid());
+        operLog.setId(String.valueOf(SnowflakeIDGenerator.genId()));
         return operLog;
     }
 
@@ -64,7 +67,7 @@ public class OperLogWriterHelper implements BeanFactoryAware {
         write(operName, operResult, module, content,
                 Optional.ofNullable(UserHelper.getCurrentUser())
                         .map(curUser -> curUser.getUsername())
-                        .orElse(ResourceUtil.getString("default.operator")));
+                        .orElse(ResourceUtil.getString("default.unknown.operator")));
     }
 
     public static void write(OperName operName, OperResult operResult, String module, String content, String operator) {
