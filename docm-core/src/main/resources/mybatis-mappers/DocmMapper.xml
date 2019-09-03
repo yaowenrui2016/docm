@@ -107,6 +107,9 @@
     <select id="findById" resultMap="DocmEntity">
         select * from t_docm where id = #{id}
     </select>
+    <select id="findAllType" resultType="java.lang.String">
+        select project_type from t_docm where project_type is not null group by project_type
+    </select>
     <delete id="delete">
         delete from t_docm where id = #{id}
     </delete>

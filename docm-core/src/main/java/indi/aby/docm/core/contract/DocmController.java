@@ -52,4 +52,9 @@ public class DocmController {
         docmServiceApi.delete(idsVO);
         return Response.ok();
     }
+
+    @GetMapping("type/list")
+    public Response<?> type() {
+        return Response.ok(docmServiceApi.findAllType());
+    }
 }

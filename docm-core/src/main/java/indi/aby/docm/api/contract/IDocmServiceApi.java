@@ -2,6 +2,8 @@ package indi.aby.docm.api.contract;
 
 import indi.rui.common.web.IApi;
 
-public interface IDocmServiceApi extends IApi<DocmVO> {
+import java.util.List;
 
+public interface IDocmServiceApi extends IApi<DocmVO> {
+    List<String> findAllType();
 }

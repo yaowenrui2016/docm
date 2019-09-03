@@ -6,7 +6,6 @@ import indi.aby.docm.api.contract.IDocmServiceApi;
 import indi.rui.common.base.dto.IdVO;
 import indi.rui.common.base.field.IFieldId;
 import indi.rui.common.base.field.IFieldIds;
-import indi.rui.common.base.util.RandomUtil;
 import indi.rui.common.base.util.SnowflakeIDGenerator;
 import indi.rui.common.web.AbstractService;
 import indi.rui.common.web.util.BeanUtil;
@@ -24,6 +23,12 @@ import java.util.stream.Collectors;
 public class DocmService extends AbstractService<DocmMapper, DocmEntity, DocmVO> implements IDocmServiceApi {
     @Autowired
     private AttachmentMapper attachmentMapper;
+
+    @Override
+    @Autowired
+    protected void setMapper(DocmMapper mapper) {
+        this.mapper = mapper;
+    }
 
     @Transactional
     @Override
@@ -53,14 +58,6 @@ public class DocmService extends AbstractService<DocmMapper, DocmEntity, DocmVO>
         }
     }
 
-//    @Override
-//    public QueryResult<DocmVO> list(QueryRequest queryRequest) {
-//        Integer total = mapper.findTotalNum(queryRequest);
-//        List<DocmVO> vos = BeanUtil.copyPropertiesForList(
-//                mapper.findAll(queryRequest), DocmVO.class);
-//        return new QueryResult<>(total, vos);
-//    }
-
     @Override
     public DocmVO get(IFieldId fieldId) {
         DocmVO doc = BeanUtil.copyProperties(mapper.findById(fieldId), DocmVO.class);
@@ -81,8 +78,7 @@ public class DocmService extends AbstractService<DocmMapper, DocmEntity, DocmVO>
     }
 
     @Override
-    @Autowired
-    protected void setMapper(DocmMapper mapper) {
-        this.mapper = mapper;
+    public List<String> findAllType() {
+        return mapper.findAllType();
     }
 }
