@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="indi.aby.docm.core.account.UserMapper">
-    <resultMap id="UserEntity" type="indi.aby.docm.core.account.UserEntity">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
+    <resultMap id="UserEntity" type="indi.aby.docm.core.account.UserEntity"
+               extends="indi.rui.common.web.dao.IMapper.AbstractData">
         <result column="username" property="username"/>
         <result column="password" property="password"/>
         <result column="phone" property="phone"/>
         <result column="email" property="email"/>
         <result column="activate" property="activate"/>
         <result column="frozen" property="frozen"/>
-        <result column="state" property="state"/>
-        <result column="create_time" property="createTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
-        <result column="last_modify_time" property="lastModifyTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
+        <association column="dept_id" property="dept" javaType="indi.aby.docm.api.account.DeptVO" resultMap="DeptVO"/>
     </resultMap>
-    <resultMap id="PermissionEntity" type="indi.aby.docm.core.permission.PermissionEntity">
-        <id column="id" property="id"/>
-        <result column="name" property="name" />
-        <result column="module" property="module" />
-        <result column="desc" property="desc" />
-        <result column="state" property="state"/>
-        <result column="create_time" property="createTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
-        <result column="last_modify_time" property="lastModifyTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
+    <resultMap id="DeptVO" type="indi.aby.docm.api.account.DeptVO">
+        <result column="dept_id" property="id"/>
+        <result column="dept_name" property="name"/>
     </resultMap>
+    <resultMap id="PermissionEntity" type="indi.aby.docm.core.permission.PermissionEntity"
+               extends="indi.rui.common.web.dao.IMapper.AbstractData">
+        <result column="module" property="module"/>
+        <result column="desc" property="desc"/>
+    </resultMap>
+
     <insert id="add">
-        insert into t_account(id, name, username, password, phone, email, activate)
-        values (#{id}, #{name}, #{username}, #{password}, #{phone}, #{email}, #{activate})
+        insert into t_account(id, name, username, password, phone, email, dept_id, activate)
+        values (#{id}, #{name}, #{username}, #{password}, #{phone}, #{email}, #{dept.id}, #{activate})
     </insert>
     <insert id="addCorrelatedPermission">
         insert into t_account_correlate_permission(account_id, permission_id) values
@@ -48,6 +46,23 @@
             <if test="email != null || nullAbles.email">
                 email = #{email},
             </if>
+            <choose>
+                <when test="nullAbles.dept">
+                    <choose>
+                        <when test="dept != null">
+                            dept_id = #{dept.id},
+                        </when>
+                        <otherwise>
+                            dept_id = null,
+                        </otherwise>
+                    </choose>
+                </when>
+                <otherwise>
+                    <if test="dept != null and dept.id != null">
+                        dept_id = #{dept.id},
+                    </if>
+                </otherwise>
+            </choose>
             <if test="activate != null || nullAbles.activate">
                 activate = #{activate},
             </if>
@@ -64,68 +79,75 @@
         delete from t_account_correlate_permission where account_id = #{id}
     </delete>
     <select id="findTotalNum" resultType="java.lang.Integer">
-        select count(id) from t_account
-        where state = '1' and isBuiltIn = b'0'
+        select count(a.id) from t_account a left join t_dept d on a.dept_id = d.id
+        where a.state = '1' and a.isBuiltIn = b'0'
         <if test="conditions.keywords != null and conditions.keywords.size > 0">
             and(
-                <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
-                    username like '%${keyword}%'
-                </foreach>
-                ||
-                <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
-                    phone like '%${keyword}%'
-                </foreach>
-                ||
-                <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
-                    email like '%${keyword}%'
-                </foreach>
+            <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                a.username like '%${keyword}%'
+            </foreach>
+            ||
+            <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                a.phone like '%${keyword}%'
+            </foreach>
+            ||
+            <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                a.email like '%${keyword}%'
+            </foreach>
             )
         </if>
         <if test="conditions.activate != null">
-            and activate = #{conditions.activate}
+            and a.activate = #{conditions.activate}
+        </if>
+        <if test="conditions.dept != null and conditions.dept.name != null">
+            and d.name = #{conditions.dept.name}
         </if>
     </select>
     <select id="findAll" resultMap="UserEntity">
-        select * from t_account
-        where state = '1' and isBuiltIn = b'0'
+        select *, d.name dept_name from t_account a left join t_dept d on a.dept_id = d.id
+        where a.state = '1' and a.isBuiltIn = b'0'
         <if test="conditions.keywords != null and conditions.keywords.size > 0">
             and(
             <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
-                username like '%${keyword}%'
+                a.username like '%${keyword}%'
             </foreach>
             ||
             <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
-                phone like '%${keyword}%'
+                a.phone like '%${keyword}%'
             </foreach>
             ||
             <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
-                email like '%${keyword}%'
+                a.email like '%${keyword}%'
             </foreach>
             )
         </if>
         <if test="conditions.activate != null">
-            and activate = #{conditions.activate}
+            and a.activate = #{conditions.activate}
+        </if>
+        <if test="conditions.dept != null and conditions.dept.name != null">
+            and d.name = #{conditions.dept.name}
         </if>
         order by
         <choose>
             <when test="sorters.size > 0">
-                <foreach collection="sorters.entrySet()" index="key" item="value">
-                    ${key} ${value}
+                <foreach collection="sorters.entrySet()" index="key" item="value" separator=",">
+                    a.${key} ${value}
                 </foreach>
             </when>
             <otherwise>
-                create_time desc
+                a.create_time desc
             </otherwise>
         </choose>
         limit #{offset}, #{pageSize}
     </select>
     <select id="findById" resultMap="UserEntity">
-        select * from t_account where id = #{id}
+        select *, d.name dept_name from t_account a left join t_dept d on a.dept_id = d.id where a.id = #{id}
     </select>
     <select id="findByUsername" resultMap="UserEntity">
         select * from t_account where username = #{username}
     </select>
     <select id="findCorrelatedPermission" resultMap="PermissionEntity">
-        select perm.* from t_permission perm inner join t_account_correlate_permission correlate on perm.id = correlate.permission_id where correlate.account_id = #{id}
+        select perm.* from t_permission perm inner join t_account_correlate_permission correlate on perm.id =
+        correlate.permission_id where correlate.account_id = #{id}
     </select>
 </mapper>

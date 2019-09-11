@@ -7,6 +7,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * 用户mapper
+ *
+ * @author: yaowr
+ * @create: 2019-09-06
+ */
 @Mapper
 public interface UserMapper extends IMapper<UserEntity> {
     UserEntity findByUsername(String username);

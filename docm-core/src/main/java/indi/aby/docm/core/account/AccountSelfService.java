@@ -14,9 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * 账号自助service
+ *
+ * @author: yaowr
+ * @create: 2019-09-06
+ */
 @Slf4j
 @Service
-public class AccountService implements IAccountServiceApi {
+public class AccountSelfService implements IAccountServiceApi {
     @Autowired
     private UserMapper userMapper;
 

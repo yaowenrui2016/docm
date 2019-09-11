@@ -19,8 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
+
+import static indi.aby.docm.core.auth.Constant.X_AUTH_TOKEN;
 
 @Slf4j
 @Service
@@ -47,13 +50,17 @@ public class AuthService implements IAuthServiceApi {
     private UserMapper userMapper;
 
     @Override
-    public UserSummaryVO login(UserVO vo, HttpServletResponse servletResponse) {
+    public UserSummaryVO login(UserVO vo, HttpServletResponse response) {
         UserEntity entity = userMapper.findByUsername(vo.getUsername());
         if (entity == null || !entity.getPassword().equals(vo.getPassword())) {
             throw new BizException(ErrorCode.USERNAME_OR_PASSWORD_WRONG);
         }
-        couldLogin(entity);     // 检查账号是否满足登录要求
-        servletResponse.addHeader("X-AUTH-TOKEN", genToken(entity));
+        couldLogin(entity); // 检查账号是否满足登录要求
+        String token = genToken(entity);
+        response.addHeader(X_AUTH_TOKEN, token);
+        Cookie cookie = new Cookie(X_AUTH_TOKEN, token);
+        cookie.setPath("/");
+        response.addCookie(cookie);
         UserSummaryVO rtn = BeanUtil.copyProperties(entity, UserSummaryVO.class);
         UserHelper.setCurrentUser(rtn);
         return rtn;
@@ -61,8 +68,8 @@ public class AuthService implements IAuthServiceApi {
 
     private String genToken(IFieldId fieldId) {
         try {
-            return JwtUtil.build(issuer, subject, audience, expireTime,
-                    Collections.singletonMap("id", fieldId.getId()), priKey);
+            return JwtUtil.build(issuer, subject, audience, expireTime, Collections.singletonMap("id", fieldId.getId()),
+                priKey);
         } catch (Exception e) {
             log.error(e.getMessage());
             throw new BizException(DefaultStatus.EXCEPTION, "生成token异常");
@@ -82,13 +89,13 @@ public class AuthService implements IAuthServiceApi {
     public UserSummaryVO parse(String token, HttpServletResponse servletResponse) {
         try {
             Claims claims = JwtUtil.parse(token, priKey);
-            String id = (String) claims.get("id");
+            String id = (String)claims.get("id");
             UserEntity entity = userMapper.findById(IdVO.ofId(id));
             if (entity == null) {
                 throw new BizException(DefaultStatus.RECORD_NOT_EXISTS);
             }
             couldLogin(entity); // 检查账号是否满足登录要求
-            renewToken(claims, servletResponse);    // token续租
+            renewToken(claims, servletResponse); // token续租
             return BeanUtil.copyProperties(entity, UserSummaryVO.class);
         } catch (Exception e) {
             log.error(e.getMessage());
@@ -96,14 +103,18 @@ public class AuthService implements IAuthServiceApi {
         }
     }
 
-    private void renewToken(Claims claims, HttpServletResponse servletResponse) {
+    private void renewToken(Claims claims, HttpServletResponse response) {
         long startTime = claims.getIssuedAt().getTime();
         long endTime = claims.getExpiration().getTime();
         long past = System.currentTimeMillis() - startTime;
         long expireInterval = endTime - startTime;
         long value = expireInterval / renewRatio;
-        if (past > value ) {   // 大于1/5的过期时间时续租
-            servletResponse.addHeader("X-AUTH-TOKEN", genToken(IdVO.ofId((String) claims.get("id"))));
+        if (past > value) { // 大于1/5的过期时间时续租
+            String token = genToken(IdVO.ofId((String)claims.get("id")));
+            response.addHeader(X_AUTH_TOKEN, token);
+            Cookie cookie = new Cookie(X_AUTH_TOKEN, token);
+            cookie.setPath("/");
+            response.addCookie(cookie);
         }
     }
 }

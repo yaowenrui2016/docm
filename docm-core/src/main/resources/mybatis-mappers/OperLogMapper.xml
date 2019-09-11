@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="indi.aby.docm.api.operlog.OperLogMapper">
-    <resultMap id="OperLogEntity" type="indi.aby.docm.api.operlog.entity.OperLogEntity">
-        <id column="id" property="id" />
-        <result column="name" property="name" />
+    <resultMap id="OperLogEntity" type="indi.aby.docm.api.operlog.entity.OperLogEntity"
+               extends="indi.rui.common.web.dao.IMapper.AbstractData">
         <result column="module" property="module"/>
         <result column="result" property="result"/>
         <result column="operator" property="operator"/>
@@ -12,13 +11,11 @@
         <result column="method" property="method"/>
         <result column="url" property="url"/>
         <result column="status" property="status"/>
-        <result column="state" property="state"/>
-        <result column="create_time" property="createTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
-        <result column="last_modify_time" property="lastModifyTime" typeHandler="indi.rui.common.web.mybatis.DateTypeHandler"/>
     </resultMap>
+
     <insert id="add">
         insert into t_oper_log (id, name, module, result, operator, user_agent, ip, method, url, content)
-        values (#{id}, #{name}, #{module}, #{result}, #{operator}, #{userAgent}, #{ip}, #{method},  #{url}, #{content})
+        values (#{id}, #{name}, #{module}, #{result}, #{operator}, #{userAgent}, #{ip}, #{method}, #{url}, #{content})
     </insert>
     <update id="update">
         update t_oper_log

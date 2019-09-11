@@ -10,9 +10,15 @@ import indi.rui.common.base.dto.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * 账号自助controller
+ *
+ * @author: yaowr
+ * @create: 2019-09-06
+ */
 @RestController
 @RequestMapping("account")
-public class AccountController {
+public class AccountSelfController {
     @Autowired
     private IAccountServiceApi accountServiceApi;
 
