@@ -99,8 +99,8 @@
         <if test="conditions.projectType != null">
             and docm.project_type = #{conditions.projectType}
         </if>
-        <if test="conditions.dept != null and conditions.dept.name != null">
-            and dept.name = #{conditions.dept.name}
+        <if test="conditions.dept != null and conditions.dept.id != null">
+            and docm.dept_id = #{conditions.dept.id}
         </if>
     </select>
     <select id="findAll" resultMap="DocmEntity">
@@ -124,8 +124,8 @@
             <if test="conditions.projectType != null">
                 and docm.project_type = #{conditions.projectType}
             </if>
-            <if test="conditions.dept != null and conditions.dept.name != null">
-                and dept.name = #{conditions.dept.name}
+            <if test="conditions.dept != null and conditions.dept.id != null">
+                and docm.dept_id = #{conditions.dept.id}
             </if>
             order by
             <choose>

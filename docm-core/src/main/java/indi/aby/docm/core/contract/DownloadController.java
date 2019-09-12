@@ -1,7 +1,7 @@
 package indi.aby.docm.core.contract;
 
 import indi.aby.docm.api.contract.IDownloadServiceApi;
-import indi.aby.docm.api.permission.Permission;
+import indi.aby.docm.api.permission.annotation.Permission;
 import indi.rui.common.base.dto.IdVO;
 import indi.rui.common.base.dto.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ public class DownloadController {
     }
 
     @GetMapping
-    @Permission(id = "DOCM_DOWNLOAD_OPER", name = "项目合同_附件下载权限", module = "项目合同", desc = "项目合同的附件下载操作")
+    @Permission(id = "DOCM_DOWNLOAD_OPER", name = "项目合同_附件下载权限", validator = "simplePermValidator", module = "项目合同", desc = "可以下载合同的附件")
     public ResponseEntity download(@ModelAttribute IdVO idVO) {
         return downloadServiceApi.download(idVO);
     }

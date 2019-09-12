@@ -17,11 +17,17 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
+/**
+ * 操作日志切面
+ *
+ * @author: yaowr
+ * @create: 2019-09-12
+ */
 @Slf4j
 @Aspect
 @Component
 public class OperlogAspect {
-
+    /*================== 切入点 ===================*/
     @Pointcut("execution(public * *(..))")
     public void anyPublicPC() {}
 
@@ -37,9 +43,7 @@ public class OperlogAspect {
     @Pointcut("within(indi.aby.docm..*)")
     public void withinDocmPC() {}
 
-
-    /*================ 通知 ===================*/
-
+    /*==================== 通知 ====================*/
     /**
      * 通用操作日志
      * @param pjp

@@ -10,6 +10,8 @@
         <result column="activate" property="activate"/>
         <result column="frozen" property="frozen"/>
         <association column="dept_id" property="dept" javaType="indi.aby.docm.api.account.DeptVO" resultMap="DeptVO"/>
+        <collection notNullColumn="permission_id" property="permissions"
+                    ofType="indi.aby.docm.api.permission.PermissionVO" resultMap="PermissionVO"/>
     </resultMap>
     <resultMap id="DeptVO" type="indi.aby.docm.api.account.DeptVO">
         <result column="dept_id" property="id"/>
@@ -17,6 +19,13 @@
     </resultMap>
     <resultMap id="PermissionEntity" type="indi.aby.docm.core.permission.PermissionEntity"
                extends="indi.rui.common.web.dao.IMapper.AbstractData">
+        <result column="module" property="module"/>
+        <result column="desc" property="desc"/>
+    </resultMap>
+    <resultMap id="PermissionVO" type="indi.aby.docm.api.permission.PermissionVO"
+               extends="indi.rui.common.web.dao.IMapper.AbstractData">
+        <id column="permission_id" property="id"/>
+        <result column="permission_name" property="name"/>
         <result column="module" property="module"/>
         <result column="desc" property="desc"/>
     </resultMap>
@@ -79,7 +88,9 @@
         delete from t_account_correlate_permission where account_id = #{id}
     </delete>
     <select id="findTotalNum" resultType="java.lang.Integer">
-        select count(a.id) from t_account a left join t_dept d on a.dept_id = d.id
+        select count(a.id)
+        from t_account a
+        left join t_dept d on a.dept_id = d.id
         where a.state = '1' and a.isBuiltIn = b'0'
         <if test="conditions.keywords != null and conditions.keywords.size > 0">
             and(
@@ -104,7 +115,9 @@
         </if>
     </select>
     <select id="findAll" resultMap="UserEntity">
-        select *, d.name dept_name from t_account a left join t_dept d on a.dept_id = d.id
+        select *, d.name dept_name, null permission_id
+        from t_account a
+        left join t_dept d on a.dept_id = d.id
         where a.state = '1' and a.isBuiltIn = b'0'
         <if test="conditions.keywords != null and conditions.keywords.size > 0">
             and(
@@ -141,13 +154,23 @@
         limit #{offset}, #{pageSize}
     </select>
     <select id="findById" resultMap="UserEntity">
-        select *, d.name dept_name from t_account a left join t_dept d on a.dept_id = d.id where a.id = #{id}
+        select account.*, dept.name dept_name, acp.permission_id, perm.name permission_name, perm.module, perm.desc
+        from t_account account
+        left join t_dept dept on account.dept_id = dept.id
+        left join t_account_correlate_permission acp on account.id = acp.account_id
+        left join t_permission perm on acp.permission_id = perm.id
+        where account.id = #{id}
     </select>
     <select id="findByUsername" resultMap="UserEntity">
-        select * from t_account where username = #{username}
+        select account.*, acp.permission_id, perm.name permission_name, perm.module, perm.desc
+        from t_account account
+        left join t_account_correlate_permission acp on account.id = acp.account_id
+        left join t_permission perm on acp.permission_id = perm.id
+        where username = #{username}
     </select>
     <select id="findCorrelatedPermission" resultMap="PermissionEntity">
-        select perm.* from t_permission perm inner join t_account_correlate_permission correlate on perm.id =
+        select perm.*
+        from t_permission perm inner join t_account_correlate_permission correlate on perm.id =
         correlate.permission_id where correlate.account_id = #{id}
     </select>
 </mapper>

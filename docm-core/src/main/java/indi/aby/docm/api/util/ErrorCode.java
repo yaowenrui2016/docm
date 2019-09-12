@@ -11,7 +11,8 @@ public enum ErrorCode implements Status, IEnum {
     ACCOUNT_IS_NOT_ACTIVATED("03001011", "账号未激活"),
     OLD_PASSWORD_WRONG("03001012", "原密码不正确"),
     CANNOT_EQUALS_OLD_PASSWORD("03001014", "新密码与原密码一致"),
-    USERNAME_ALREADY_EXISTS("03001018", "用户名已存在");
+    USERNAME_ALREADY_EXISTS("03001018", "用户名已存在"),
+    NO_PERMISSION("03001020", "您没有访问权限");
 
     private String code;
     private String message;
