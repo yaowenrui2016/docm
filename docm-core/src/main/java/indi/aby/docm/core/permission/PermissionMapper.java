@@ -11,5 +11,6 @@ public interface PermissionMapper extends IMapper<PermissionEntity> {
     void add(List<PermissionEntity> entities);
 
     List<PermissionEntity> findAll();
+
     void deleteAll();
 }

@@ -2,6 +2,8 @@ package indi.aby.docm.core.permission;
 
 import indi.aby.docm.api.permission.IPermissionServiceApi;
 import indi.aby.docm.api.permission.PermissionGroupedVO;
+import indi.aby.docm.api.permission.PermissionVO;
+import indi.aby.docm.core.AbstractController;
 import indi.rui.common.base.dto.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("perm")
-public class PermissionController {
+public class PermissionController extends AbstractController<IPermissionServiceApi, PermissionVO> {
     @Autowired
     private IPermissionServiceApi permissionServiceApi;
 

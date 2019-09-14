@@ -1,9 +1,9 @@
 package indi.aby.docm.api.permission;
 
-import indi.aby.docm.api.permission.PermissionGroupedVO;
+import indi.rui.common.web.IApi;
 
 import java.util.List;
 
-public interface IPermissionServiceApi {
+public interface IPermissionServiceApi extends IApi<PermissionVO> {
     List<PermissionGroupedVO> findAll();
 }

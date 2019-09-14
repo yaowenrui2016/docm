@@ -107,6 +107,9 @@
             </foreach>
             )
         </if>
+        <if test="conditions.keywordUsername != null">
+            and a.username like '%${conditions.keywordUsername}%'
+        </if>
         <if test="conditions.activate != null">
             and a.activate = #{conditions.activate}
         </if>
@@ -133,6 +136,9 @@
                 a.email like '%${keyword}%'
             </foreach>
             )
+        </if>
+        <if test="conditions.keywordUsername != null">
+            and a.username like '%${conditions.keywordUsername}%'
         </if>
         <if test="conditions.activate != null">
             and a.activate = #{conditions.activate}

@@ -111,4 +111,14 @@ public class AccountManageController {
     public Response<Boolean> checkUniqueUsername(@ModelAttribute UserVO userVO) {
         return Response.ok(accountManageServiceApi.checkUniqueUsername(userVO));
     }
+
+    /**
+     * 给用户选择器专用
+     * @param queryRequest
+     * @return
+     */
+    @PostMapping("search")
+    public Response<QueryResult<UserVO>> search(@RequestBody QueryRequest queryRequest) {
+        return Response.ok(accountManageServiceApi.list(queryRequest));
+    }
 }
