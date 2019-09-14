@@ -44,7 +44,7 @@ public abstract class AbstractController<A extends IApi<V>, V extends AbstractVO
      * @return
      */
     @PostMapping("list")
-    public Response<QueryResult<V>> list(@RequestBody QueryRequest<V> queryRequest) {
+    public Response<QueryResult<V>> list(@RequestBody QueryRequest queryRequest) {
         return Response.ok(api.list(queryRequest));
     }
 

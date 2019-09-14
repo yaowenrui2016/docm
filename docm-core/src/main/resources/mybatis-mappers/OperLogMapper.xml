@@ -79,6 +79,9 @@
         <if test="conditions.status != null">
             and status = #{conditions.status}
         </if>
+        <if test="conditions.ranges != null and conditions.ranges.createTime">
+            and create_time between #{conditions.ranges.createTime.start} and #{conditions.ranges.createTime.end}
+        </if>
     </select>
     <select id="findAll" resultMap="OperLogEntity">
         select * from t_oper_log
@@ -111,6 +114,9 @@
         </if>
         <if test="conditions.status != null">
             and status = #{conditions.status}
+        </if>
+        <if test="conditions.ranges != null and conditions.ranges.createTime">
+            and create_time between #{conditions.ranges.createTime.start} and #{conditions.ranges.createTime.end}
         </if>
         order by
         <choose>

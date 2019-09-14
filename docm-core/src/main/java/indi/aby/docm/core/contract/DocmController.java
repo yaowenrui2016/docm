@@ -35,7 +35,7 @@ public class DocmController {
     @OperLog(name = OperName.LIST, module = "contract")
     @Permission(id = "DOCM_LIST_VIEW", name = "项目合同_查询列表权限", validator = "simplePermValidator", module = "项目合同", desc = "可以查询所有科室的合同列表")
     @Permission(id = "DOCM_LIST_DEPT_VIEW", name = "项目合同_仅本科室查询列表权限", validator = "docmListByDept", module = "项目合同", desc = "仅可以查询本科室的合同列表")
-    public Response<QueryResult<DocmVO>> list(@RequestBody QueryRequest<DocmVO> queryRequest) {
+    public Response<QueryResult<DocmVO>> list(@RequestBody QueryRequest queryRequest) {
         return Response.ok(docmServiceApi.list(queryRequest));
     }
 

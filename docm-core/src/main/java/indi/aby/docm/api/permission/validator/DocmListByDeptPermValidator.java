@@ -1,5 +1,6 @@
 package indi.aby.docm.api.permission.validator;
 
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -7,8 +8,6 @@ import org.springframework.stereotype.Component;
 
 import indi.aby.docm.api.account.DeptVO;
 import indi.aby.docm.api.auth.UserSummaryVO;
-import indi.aby.docm.api.contract.DocmVO;
-import indi.rui.common.base.dto.AbstractVO;
 import indi.rui.common.base.dto.QueryRequest;
 import indi.rui.common.base.util.StringUtil;
 
@@ -26,13 +25,11 @@ public class DocmListByDeptPermValidator extends AbstractPermValidator implement
          * 否则视为 无权限 */
         if (hasPermission(permission, userInfo) && !StringUtil.isEmpty(deptId)) {
             if (param instanceof QueryRequest) {
-                AbstractVO vo = ((QueryRequest)param).getConditions();
-                if (vo instanceof DocmVO) {
-                    DeptVO dept = new DeptVO();
-                    dept.setId(deptId);
-                    ((DocmVO)vo).setDept(dept);
-                    return true;
-                }
+                Map<String, Object> conditions = ((QueryRequest)param).getConditions();
+                DeptVO dept = new DeptVO();
+                dept.setId(deptId);
+                conditions.put("dept", dept);
+                return true;
             }
         }
         return false;

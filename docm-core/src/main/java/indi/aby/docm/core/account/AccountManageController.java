@@ -51,7 +51,7 @@ public class AccountManageController {
      */
     @PostMapping("list")
     @OperLog(name = OperName.LIST, module = "account")
-    public Response<QueryResult<UserVO>> list(@RequestBody QueryRequest<UserVO> queryRequest) {
+    public Response<QueryResult<UserVO>> list(@RequestBody QueryRequest queryRequest) {
         return Response.ok(accountManageServiceApi.list(queryRequest));
     }
 
