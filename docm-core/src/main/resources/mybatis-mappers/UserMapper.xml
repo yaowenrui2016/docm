@@ -113,8 +113,8 @@
         <if test="conditions.activate != null">
             and a.activate = #{conditions.activate}
         </if>
-        <if test="conditions.dept != null and conditions.dept.name != null">
-            and d.name = #{conditions.dept.name}
+        <if test="conditions.dept != null and conditions.dept.id != null">
+            and a.dept_id = #{conditions.dept.id}
         </if>
     </select>
     <select id="findAll" resultMap="UserEntity">
@@ -143,8 +143,8 @@
         <if test="conditions.activate != null">
             and a.activate = #{conditions.activate}
         </if>
-        <if test="conditions.dept != null and conditions.dept.name != null">
-            and d.name = #{conditions.dept.name}
+        <if test="conditions.dept != null and conditions.dept.id != null">
+            and a.dept_id = #{conditions.dept.id}
         </if>
         order by
         <choose>
