@@ -107,7 +107,7 @@ public class AccountManageController {
      * @param userVO
      * @return
      */
-    @GetMapping("cku-username")
+    @GetMapping("check-unique-username")
     public Response<Boolean> checkUniqueUsername(@ModelAttribute UserVO userVO) {
         return Response.ok(accountManageServiceApi.checkUniqueUsername(userVO));
     }

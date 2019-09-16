@@ -23,4 +23,11 @@ public interface IDeptApi extends IApi<DeptVO> {
      * @return
      */
     Boolean checkUniqueName(DeptVO vo);
+
+    /**
+     * 检查是否被引用
+     * @param vo
+     * @return
+     */
+    Boolean checkRef(DeptVO vo);
 }

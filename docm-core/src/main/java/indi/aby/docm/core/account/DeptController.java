@@ -2,9 +2,7 @@ package indi.aby.docm.core.account;
 
 import java.util.List;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import indi.aby.docm.api.account.DeptVO;
 import indi.aby.docm.api.account.IDeptApi;
@@ -27,5 +25,15 @@ public class DeptController extends AbstractController<IDeptApi, DeptVO> {
     @PostMapping("list-all")
     public Response<List<DeptVO>> list() {
         return Response.ok(api.list());
+    }
+
+    /**
+     * 检查是否被引用
+     * @param vo
+     * @return
+     */
+    @GetMapping("check-ref")
+    public Response<Boolean> checkRef(@ModelAttribute DeptVO vo) {
+        return Response.ok(api.checkRef(vo));
     }
 }

@@ -1,8 +1,7 @@
 package indi.aby.docm.core.account;
 
-import indi.rui.common.base.dto.QueryRequest;
-import indi.rui.common.base.dto.QueryResult;
-import indi.rui.common.web.util.BeanUtil;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +9,7 @@ import indi.aby.docm.api.account.DeptVO;
 import indi.aby.docm.api.account.IDeptApi;
 import indi.rui.common.base.util.StringUtil;
 import indi.rui.common.web.AbstractService;
-
-import java.util.List;
+import indi.rui.common.web.util.BeanUtil;
 
 /**
  * 科室service
@@ -49,5 +47,10 @@ public class DeptService extends AbstractService<DeptMapper, DeptEntity, DeptVO>
         DeptEntity entity = mapper.findByName(vo.getName());
         return entity != null &&
                 (StringUtil.isEmpty(vo.getId()) || !vo.getId().equals(entity.getId()));
+    }
+
+    @Override
+    public Boolean checkRef(DeptVO vo) {
+        return Boolean.FALSE;
     }
 }
