@@ -11,6 +11,7 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.BeanFactoryAware;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import indi.aby.docm.api.permission.annotation.Permission;
@@ -33,13 +34,16 @@ public class PermissionAspect implements BeanFactoryAware {
     private BeanFactory beanFactory;
 
     /*================== 切入点 ===================*/
-    @Pointcut("execution(public * indi.aby.docm..*.*Controller.*(..))")
+    @Pointcut("execution(public indi.rui.common.base.dto.Response indi.aby.docm..*.*Controller.*(..))")
     public void controllerPC() {}
+
+    @Pointcut("execution(public org.springframework.http.ResponseEntity indi.aby.docm..*.*Controller.*(..))")
+    public void controllerWithResponseEntityRtnPC() {}
 
     /*==================== 通知 ====================*/
     /**
-     * 针对controller方法上多权限的拦截通知
-     * 如果权限校验失败则抛出 NoPermissionException
+     * 针对controller方法上多权限的拦截通知 如果权限校验失败则抛出 NoPermissionException
+     * 
      * @param pjp
      */
     @Around(value = "controllerPC() && @annotation(permissions) && args(param)", argNames = "param,permissions")
@@ -57,8 +61,8 @@ public class PermissionAspect implements BeanFactoryAware {
     }
 
     /**
-     * 针对controller方法上单权限的拦截通知
-     * 如果权限校验失败则抛出 NoPermissionException
+     * 针对controller方法上单权限的拦截通知 如果权限校验失败则抛出 NoPermissionException
+     * 
      * @param pjp
      */
     @Around(value = "controllerPC() && @annotation(permission) && args(param)", argNames = "param,permission")
@@ -69,6 +73,23 @@ public class PermissionAspect implements BeanFactoryAware {
             throw new NoPermissionException();
         }
         Response res = (Response)pjp.proceed();
+        return res;
+    }
+
+    /**
+     * 针对下载的权限的拦截通知 如果权限校验失败则抛出 NoPermissionException
+     * 
+     * @param pjp
+     */
+    @Around(value = "controllerWithResponseEntityRtnPC() && @annotation(permission) && args(param)",
+        argNames = "param,permission")
+    public ResponseEntity perm4Download(ProceedingJoinPoint pjp, Object param, Permission permission) throws Throwable {
+        UserSummaryVO userInfo = UserHelper.getCurrentUser();
+        PermissionValidator validator = beanFactory.getBean(permission.validator(), PermissionValidator.class);
+        if (!validator.validate(permission.id(), userInfo, param)) {
+            throw new NoPermissionException();
+        }
+        ResponseEntity res = (ResponseEntity)pjp.proceed();
         return res;
     }
 
