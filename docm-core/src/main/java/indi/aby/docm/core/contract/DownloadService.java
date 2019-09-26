@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -85,7 +86,7 @@ public class DownloadService implements IDownloadServiceApi, InitializingBean {
             in.read(buf);
             HttpHeaders httpHeaders = new HttpHeaders();
             httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" +
-                    new String(filename.getBytes("utf-8"), "iso8859-1"));
+                    URLEncoder.encode(filename, "utf-8"));
             return new ResponseEntity(buf, httpHeaders, HttpStatus.OK);
         } catch (IOException e) {
             log.error(e.getMessage());
