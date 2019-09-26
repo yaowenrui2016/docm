@@ -22,7 +22,7 @@ logging:
   file: ./docm-core.log
   level:
     indi.rui.common: debug
-    indi.aby.docm: debug
+    indi.aby.docm: info
     root: info
 
 docm:
