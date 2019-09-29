@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static indi.aby.docm.api.util.ErrorCode.CREATING_FILE_DIRECTORY_FAILED;
+import static indi.aby.docm.api.util.ErrorCode.FILE_RESOURCE_EXCEPTION;
 
 @Slf4j
 @Service
@@ -63,10 +64,10 @@ public class DownloadService implements IDownloadServiceApi, InitializingBean {
         List<AttachmentVO> attachments = new ArrayList<>();
         if (files != null) {
             attachments = files.stream().map(multipartFile -> {
-                AttachmentVO attachmentVO = new AttachmentVO(filePath + File.separator +
+                AttachmentVO attachmentVO = new AttachmentVO(File.separator +
                         DateUtil.now("yyyyMMddHHmmss"), multipartFile.getOriginalFilename());
                 try {
-                    FileUtil.save(multipartFile.getInputStream(), attachmentVO.getDocPath(), attachmentVO.getDocName());
+                    FileUtil.save(multipartFile.getInputStream(), filePath + attachmentVO.getDocPath(), attachmentVO.getDocName());
                 } catch (IOException e) {
                     log.error(e.getMessage());
                     throw new RuntimeException("文件保存失败");
@@ -114,13 +115,13 @@ public class DownloadService implements IDownloadServiceApi, InitializingBean {
             List<AttachmentEntity> attachments = attachmentMapper.findById(docm);
             if (attachments != null) {
                 ZipUtil.zipFile(attachments.stream()
-                        .map(attachment -> new File(attachment.getDocPath(), attachment.getDocName()))
+                        .map(attachment -> new File(filePath + attachment.getDocPath(), attachment.getDocName()))
                         .collect(Collectors.toList()), new File(zipTmpPath, filename));
             }
             return filename;
         } catch (IOException e) {
             log.error(e.getMessage());
-            throw new RuntimeException("压缩文件异常");
+            throw new BizException(FILE_RESOURCE_EXCEPTION);
         }
     }
 
