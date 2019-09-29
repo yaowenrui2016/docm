@@ -81,7 +81,7 @@ public class PermissionAspect implements BeanFactoryAware {
      * 
      * @param pjp
      */
-    @Around(value = "controllerWithResponseEntityRtnPC() && @annotation(permission) && args(param)",
+    @Around(value = "controllerWithResponseEntityRtnPC() && @annotation(permission) && args(param,..)",
         argNames = "param,permission")
     public ResponseEntity perm4Download(ProceedingJoinPoint pjp, Object param, Permission permission) throws Throwable {
         UserSummaryVO userInfo = UserHelper.getCurrentUser();

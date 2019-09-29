@@ -1,26 +1,28 @@
 package indi.aby.docm.core.auth;
 
-import indi.aby.docm.api.auth.IAuthServiceApi;
-import indi.aby.docm.api.auth.UserSummaryVO;
-import indi.aby.docm.api.account.UserHelper;
-import indi.rui.common.base.util.StringUtil;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.Ordered;
-import org.springframework.http.HttpStatus;
-import org.springframework.util.AntPathMatcher;
-import org.springframework.web.filter.OncePerRequestFilter;
+import static indi.aby.docm.core.auth.Constant.X_AUTH_TOKEN;
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
-import static indi.aby.docm.core.auth.Constant.X_AUTH_TOKEN;
+import org.springframework.core.Ordered;
+import org.springframework.http.HttpStatus;
+import org.springframework.util.AntPathMatcher;
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import indi.aby.docm.api.account.UserHelper;
+import indi.aby.docm.api.auth.IAuthServiceApi;
+import indi.aby.docm.api.auth.UserSummaryVO;
+import indi.rui.common.base.util.StringUtil;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class AuthFilter extends OncePerRequestFilter implements Ordered {
@@ -43,15 +45,16 @@ public class AuthFilter extends OncePerRequestFilter implements Ordered {
         String method = request.getMethod();
         if (shouldAuth(uri) && !"OPTIONS".equals(method)) {
             try {
-                String token = Optional.ofNullable(request.getHeader(X_AUTH_TOKEN)).orElseGet(() -> {
-                    Cookie[] cookies = request.getCookies();
-                    if (cookies != null) {
-                        return Arrays.stream(cookies).filter(cookie -> X_AUTH_TOKEN.equals(cookie.getName()))
-                            .map(cookie -> cookie.getValue()).collect(Collectors.toList()).get(0);
-                    } else {
-                        return null;
-                    }
-                });
+                String token = Optional.ofNullable(request.getParameter("xAuthToken"))
+                    .orElseGet(() -> Optional.ofNullable(request.getHeader(X_AUTH_TOKEN)).orElseGet(() -> {
+                        Cookie[] cookies = request.getCookies();
+                        if (cookies != null) {
+                            return Arrays.stream(cookies).filter(cookie -> X_AUTH_TOKEN.equals(cookie.getName()))
+                                .map(cookie -> cookie.getValue()).collect(Collectors.toList()).get(0);
+                        } else {
+                            return null;
+                        }
+                    }));
                 if (!StringUtil.isEmpty(token)) {
                     UserSummaryVO vo = authServiceApi.parse(token, response);
                     log.debug("Parse x-auth-token of '{}' success", vo.getUsername());

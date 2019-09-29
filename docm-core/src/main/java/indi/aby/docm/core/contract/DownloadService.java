@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -77,7 +78,7 @@ public class DownloadService implements IDownloadServiceApi, InitializingBean {
     }
 
     @Override
-    public ResponseEntity download(IFieldId fieldId) {
+    public ResponseEntity download(IFieldId fieldId, HttpServletRequest request) {
         String filename = buildZipFile(fieldId); // 把多个文件打成zip压缩包
         InputStream in = null;
         try {
@@ -85,8 +86,12 @@ public class DownloadService implements IDownloadServiceApi, InitializingBean {
             byte[] buf = new byte[in.available()];
             in.read(buf);
             HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" +
-                    URLEncoder.encode(filename, "utf-8"));
+            String encodedFilename = URLEncoder.encode(filename, "utf-8");
+            String dispositionContent = "attachment;filename=" + encodedFilename;
+            if (request.getHeader("User-Agent").toLowerCase().contains("firefox")) {
+                dispositionContent = "attachment;filename*=utf-8''" + encodedFilename;
+            }
+            httpHeaders.add(HttpHeaders.CONTENT_DISPOSITION, dispositionContent);
             return new ResponseEntity(buf, httpHeaders, HttpStatus.OK);
         } catch (IOException e) {
             log.error(e.getMessage());

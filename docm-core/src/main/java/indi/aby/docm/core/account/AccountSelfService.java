@@ -1,12 +1,14 @@
 package indi.aby.docm.core.account;
 
 import indi.aby.docm.api.account.IAccountServiceApi;
+import indi.aby.docm.api.account.UserHelper;
 import indi.aby.docm.api.permission.PermissionVO;
 import indi.aby.docm.api.account.UserModPwdVO;
 import indi.aby.docm.api.auth.UserSummaryVO;
 import indi.aby.docm.api.util.ErrorCode;
 import indi.rui.common.base.dto.DefaultStatus;
 import indi.rui.common.base.field.IFieldId;
+import indi.rui.common.base.util.StringUtil;
 import indi.rui.common.web.exception.BizException;
 import indi.rui.common.web.util.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +30,9 @@ public class AccountSelfService implements IAccountServiceApi {
 
     @Override
     public UserSummaryVO get(IFieldId fieldId) {
+        if (StringUtil.isEmpty(fieldId.getId())) {
+            return UserHelper.getCurrentUser();
+        }
         UserEntity entity = userMapper.findById(fieldId);
         if (entity == null) {
             throw new BizException(DefaultStatus.RECORD_NOT_EXISTS);

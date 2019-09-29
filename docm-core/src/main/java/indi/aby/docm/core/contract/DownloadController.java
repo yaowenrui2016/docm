@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -24,7 +25,7 @@ public class DownloadController {
 
     @GetMapping
     @Permission(id = "DOCM_DOWNLOAD_OPER", name = "项目合同_附件下载权限", validator = "simplePermValidator", module = "项目合同", desc = "可以下载合同的附件")
-    public ResponseEntity download(@ModelAttribute IdVO idVO) {
-        return downloadServiceApi.download(idVO);
+    public ResponseEntity download(@ModelAttribute IdVO idVO, HttpServletRequest request) {
+        return downloadServiceApi.download(idVO, request);
     }
 }

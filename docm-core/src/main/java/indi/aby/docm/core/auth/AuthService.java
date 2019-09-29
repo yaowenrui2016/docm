@@ -60,6 +60,7 @@ public class AuthService implements IAuthServiceApi {
         response.addHeader(X_AUTH_TOKEN, token);
         Cookie cookie = new Cookie(X_AUTH_TOKEN, token);
         cookie.setPath("/");
+        cookie.setMaxAge(Integer.valueOf(expireTime.toString()));
         response.addCookie(cookie);
         UserSummaryVO rtn = BeanUtil.copyProperties(entity, UserSummaryVO.class);
         UserHelper.setCurrentUser(rtn);
@@ -114,6 +115,7 @@ public class AuthService implements IAuthServiceApi {
             response.addHeader(X_AUTH_TOKEN, token);
             Cookie cookie = new Cookie(X_AUTH_TOKEN, token);
             cookie.setPath("/");
+            cookie.setMaxAge(Integer.valueOf(expireTime.toString()));
             response.addCookie(cookie);
         }
     }
