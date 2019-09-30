@@ -19,7 +19,7 @@ public class DownloadController {
     private IDownloadServiceApi downloadServiceApi;
 
     @PostMapping
-//    @Permission(id = "DOCM_UPLOAD_OPER", name = "项目合同_附件上传权限", validator = "simplePermValidator", module = "项目合同", desc = "拥有该权限才可以上传合同的附件")
+    @Permission(id = "DOCM_UPLOAD_OPER", name = "项目合同_附件上传权限", validator = "simplePermValidator", module = "项目合同", desc = "拥有该权限才可以上传合同的附件")
     public Response<?> upload(@RequestBody List<MultipartFile> files) {
         return Response.ok(downloadServiceApi.upload(files));
     }

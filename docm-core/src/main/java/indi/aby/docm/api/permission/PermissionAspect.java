@@ -2,7 +2,7 @@ package indi.aby.docm.api.permission;
 
 import indi.aby.docm.api.account.UserHelper;
 import indi.aby.docm.api.auth.UserSummaryVO;
-import indi.aby.docm.api.permission.exception.NoPermissionException;
+import indi.rui.common.web.exception.NoPermissionException;
 import indi.aby.docm.api.permission.validator.PermissionValidator;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;

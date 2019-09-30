@@ -13,6 +13,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import indi.rui.common.web.exception.NoPermissionException;
 import org.springframework.core.Ordered;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.AntPathMatcher;
@@ -64,7 +65,11 @@ public class AuthFilter extends OncePerRequestFilter implements Ordered {
                     response.setStatus(HttpStatus.UNAUTHORIZED.value());
                 }
             } catch (Exception e) {
-                response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                if (e.getCause() instanceof NoPermissionException) {
+                    response.setStatus(HttpStatus.FORBIDDEN.value());
+                } else {
+                    response.setStatus(HttpStatus.UNAUTHORIZED.value());
+                }
             } finally {
                 UserHelper.removeCurrentUser(); // 移除线程变量的当前用户
             }
