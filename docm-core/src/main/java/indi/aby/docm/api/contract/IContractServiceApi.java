@@ -4,6 +4,9 @@ import indi.rui.common.web.IApi;
 
 import java.util.List;
 
-public interface IDocmServiceApi extends IApi<DocmVO> {
+/**
+ * 合同api
+ */
+public interface IContractServiceApi extends IApi<ContractVO> {
     List<String> findAllType();
 }

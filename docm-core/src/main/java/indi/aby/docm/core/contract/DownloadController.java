@@ -12,6 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * 附件上传、下载controller
+ */
 @RestController
 @RequestMapping("doc")
 public class DownloadController {

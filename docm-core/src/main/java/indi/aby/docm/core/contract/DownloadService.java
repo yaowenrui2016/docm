@@ -28,6 +28,9 @@ import java.util.stream.Collectors;
 import static indi.aby.docm.api.util.ErrorCode.CREATING_FILE_DIRECTORY_FAILED;
 import static indi.aby.docm.api.util.ErrorCode.FILE_RESOURCE_EXCEPTION;
 
+/**
+ * 附件上传、下载service
+ */
 @Slf4j
 @Service
 public class DownloadService implements IDownloadServiceApi, InitializingBean {
@@ -38,7 +41,7 @@ public class DownloadService implements IDownloadServiceApi, InitializingBean {
     private String zipTmpPath;
 
     @Autowired
-    private DocmMapper docmMapper;
+    private ContractMapper contractMapper;
 
     @Autowired
     private AttachmentMapper attachmentMapper;
@@ -110,7 +113,7 @@ public class DownloadService implements IDownloadServiceApi, InitializingBean {
 
     private String buildZipFile(IFieldId fieldId) {
         try {
-            DocmEntity docm = docmMapper.findById(fieldId);
+            ContractEntity docm = contractMapper.findById(fieldId);
             String filename = docm.getProjectName().concat(".zip");
             List<AttachmentEntity> attachments = attachmentMapper.findById(docm);
             if (attachments != null) {

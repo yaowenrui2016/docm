@@ -5,7 +5,10 @@ import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * 合同Mapper
+ */
 @Mapper
-public interface DocmMapper extends IMapper<DocmEntity> {
+public interface ContractMapper extends IMapper<ContractEntity> {
     List<String> findAllType();
 }

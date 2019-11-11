@@ -9,9 +9,12 @@ import indi.rui.common.web.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * 合同Entity
+ */
 @Getter
 @Setter
-public class DocmEntity extends BaseEntity {
+public class ContractEntity extends BaseEntity {
     /**
      * 1.项目名称
      */
@@ -23,12 +26,12 @@ public class DocmEntity extends BaseEntity {
     private String projectType;
 
     /**
-     * 3.公司名称
+     * 3.乙方（公司名称）
      */
     private String company;
 
     /**
-     *  4.合同号
+     * 4.合同号
      */
     private String contractNum;
 
@@ -43,22 +46,17 @@ public class DocmEntity extends BaseEntity {
     private String contractTime;
 
     /**
-     * 7.凭证号
+     * 7.备注
      */
-    private String credentialNum;
+    private String desc;
 
     /**
-     * 8.凭证时间
-     */
-    private String credentialTime;
-
-    /**
-     * 9.金额
+     * 8.总金额
      */
     private BigDecimal money;
 
     /**
-     * 10.附件
+     * 9.附件
      */
     private List<AttachmentVO> attachments;
 }

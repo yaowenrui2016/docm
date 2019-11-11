@@ -8,9 +8,12 @@ import lombok.Setter;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * 合同VO
+ */
 @Getter
 @Setter
-public class DocmVO extends BaseVO {
+public class ContractVO extends BaseVO {
     /**
      * 1.项目名称
      */

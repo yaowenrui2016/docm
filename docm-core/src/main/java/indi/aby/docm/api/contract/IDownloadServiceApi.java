@@ -7,6 +7,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
+/**
+ * 附件上传、下载api
+ */
 public interface IDownloadServiceApi {
     List<AttachmentVO> upload(List<MultipartFile> files);
     ResponseEntity download(IFieldId fieldId, HttpServletRequest request);
