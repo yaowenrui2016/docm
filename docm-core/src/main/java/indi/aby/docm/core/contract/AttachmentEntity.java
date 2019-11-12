@@ -24,4 +24,19 @@ public class AttachmentEntity extends BaseEntity {
      * 3.文件名
      */
     private String docName;
+
+    /**
+     * 4.文件类型
+     */
+    private String type;
+
+    /**
+     * 5.文件大小
+     */
+    private Long size;
+
+    /**
+     * 6.文件MD5
+     */
+    private String md5;
 }

@@ -5,6 +5,7 @@ import indi.aby.docm.api.contract.AttachmentVO;
 import indi.rui.common.base.field.IFieldId;
 import indi.rui.common.base.util.DateUtil;
 import indi.rui.common.base.util.FileUtil;
+import indi.rui.common.base.util.MD5Util;
 import indi.rui.common.base.util.ZipUtil;
 import indi.rui.common.web.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,8 +27,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static indi.aby.docm.api.util.ErrorCode.CREATING_FILE_DIRECTORY_FAILED;
-import static indi.aby.docm.api.util.ErrorCode.FILE_RESOURCE_EXCEPTION;
+import static indi.aby.docm.api.util.ErrorCode.*;
 
 /**
  * 附件上传、下载service
@@ -64,16 +65,19 @@ public class DownloadService implements IDownloadServiceApi, InitializingBean {
 
     @Override
     public List<AttachmentVO> upload(List<MultipartFile> files) {
+        // 可以支持一次传多个文件
         List<AttachmentVO> attachments = new ArrayList<>();
         if (files != null) {
-            attachments = files.stream().map(multipartFile -> {
-                AttachmentVO attachmentVO = new AttachmentVO(File.separator +
-                        DateUtil.now("yyyyMMddHHmmss"), multipartFile.getOriginalFilename());
+            attachments = files.stream().map(multipartFile -> {AttachmentVO attachmentVO = new AttachmentVO(File.separator +
+                    DateUtil.now("yyyyMMddHHmmss"), multipartFile.getOriginalFilename());
                 try {
+                    attachmentVO.setType(multipartFile.getContentType());
+                    attachmentVO.setSize(multipartFile.getSize());
+                    attachmentVO.setMd5(MD5Util.encrypt(multipartFile.getBytes()));
                     FileUtil.save(multipartFile.getInputStream(), filePath + attachmentVO.getDocPath(), attachmentVO.getDocName());
                 } catch (IOException e) {
                     log.error(e.getMessage());
-                    throw new RuntimeException("文件保存失败");
+                    throw new BizException(FILE_SAVING_EXCEPTION);
                 }
                 return attachmentVO;
             }).collect(Collectors.toList());
@@ -81,12 +85,10 @@ public class DownloadService implements IDownloadServiceApi, InitializingBean {
         return attachments;
     }
 
-    @Override
-    public ResponseEntity download(IFieldId fieldId, HttpServletRequest request) {
-        String filename = buildZipFile(fieldId); // 把多个文件打成zip压缩包
+    private ResponseEntity download(String path, String filename, HttpServletRequest request) {
         InputStream in = null;
         try {
-            in = new BufferedInputStream(new FileInputStream(new File(zipTmpPath, filename)));
+            in = new BufferedInputStream(new FileInputStream(new File(path, filename)));
             byte[] buf = new byte[in.available()];
             in.read(buf);
             HttpHeaders httpHeaders = new HttpHeaders();
@@ -111,21 +113,34 @@ public class DownloadService implements IDownloadServiceApi, InitializingBean {
         }
     }
 
-    private String buildZipFile(IFieldId fieldId) {
+    @Override
+    public ResponseEntity singleDownload(IFieldId fieldId, HttpServletRequest request) {
+        AttachmentEntity entity = attachmentMapper.findById(fieldId);
+        return download(filePath + entity.getDocPath(), entity.getDocName(), request);
+    }
+
+    @Override
+    public ResponseEntity zipAllDownload(IFieldId fieldId, HttpServletRequest request) {
+        ContractEntity docm = contractMapper.findById(fieldId);
+        if (docm == null) {
+            log.warn("合同不存在");
+            return null;
+        }
+        String filename = docm.getProjectName().concat(".zip");
+        List<AttachmentEntity> attachments = attachmentMapper.findByDocmId(docm);
+        if (CollectionUtils.isEmpty(attachments)) {
+            log.warn("该合同没有附件");
+            return null;
+        }
         try {
-            ContractEntity docm = contractMapper.findById(fieldId);
-            String filename = docm.getProjectName().concat(".zip");
-            List<AttachmentEntity> attachments = attachmentMapper.findById(docm);
-            if (attachments != null) {
-                ZipUtil.zipFile(attachments.stream()
-                        .map(attachment -> new File(filePath + attachment.getDocPath(), attachment.getDocName()))
-                        .collect(Collectors.toList()), new File(zipTmpPath, filename));
-            }
-            return filename;
+            ZipUtil.zipFile(attachments.stream()
+                    .map(attachment -> new File(filePath + attachment.getDocPath(), attachment.getDocName()))
+                    .collect(Collectors.toList()), new File(zipTmpPath, filename));
         } catch (IOException e) {
             log.error(e.getMessage());
             throw new BizException(FILE_RESOURCE_EXCEPTION);
         }
+        return download(zipTmpPath, filename, request);
     }
 
     @Override

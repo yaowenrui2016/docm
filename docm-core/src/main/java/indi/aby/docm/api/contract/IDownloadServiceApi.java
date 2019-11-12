@@ -12,6 +12,7 @@ import java.util.List;
  */
 public interface IDownloadServiceApi {
     List<AttachmentVO> upload(List<MultipartFile> files);
-    ResponseEntity download(IFieldId fieldId, HttpServletRequest request);
+    ResponseEntity zipAllDownload(IFieldId fieldId, HttpServletRequest request);
+    ResponseEntity singleDownload(IFieldId fieldId, HttpServletRequest request);
     List<String> clean();
 }

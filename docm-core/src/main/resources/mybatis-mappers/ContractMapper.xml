@@ -8,8 +8,6 @@
         <result column="company" property="company"/>
         <result column="contract_num" property="contractNum"/>
         <result column="contract_time" property="contractTime"/>
-        <result column="credential_num" property="credentialNum"/>
-        <result column="credential_time" property="credentialTime"/>
         <result column="money" property="money"/>
         <association column="dept" property="dept" resultMap="indi.aby.docm.core.account.UserMapper.DeptVO"/>
         <collection notNullColumn="attachment_id" property="attachments" ofType="indi.aby.docm.api.contract.AttachmentVO"

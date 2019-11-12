@@ -46,12 +46,29 @@ create table if not exists t_docm (
     primary key (id)
 ) default charset utf8mb4 collate utf8mb4_general_ci;
 
+create table if not exists t_pay_item (
+    `id` varchar(32) not null comment 'id',
+    `order` int(4) default null comment '序号',
+    `credential_num` varchar(50) default null comment '凭证号',
+    `credential_time` varchar(50) default null comment '凭证时间',
+    `money` bigint default null comment '金额',
+    `contract_id` varchar(20) default null comment '所属合同',
+    `desc` varchar(255) default null comment '备注',
+    `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
+    `create_time` timestamp default current_timestamp comment '创建时间',
+    `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',
+    primary key (id)
+) default charset utf8mb4 collate utf8mb4_general_ci comment '付款项';
+
 create table if not exists t_attachment (
     `id` varchar(32) not null comment 'id',
-    `docm_id` varchar(32) not null comment 'docm_id',
     `name` varchar(50) default null comment '名称',
-    `doc_name` varchar(256) default null comment '文档名称',
-    `doc_path` varchar(256) default null comment '文档路径',
+    `docm_id` varchar(32) not null comment '所属文档管理对象的id',
+    `doc_path` varchar(256) default null comment '附件路径',
+    `doc_name` varchar(256) default null comment '文件名',
+    `type` varchar(50) default null comment '文件类型',
+    `size` bigint(20) default null comment '文件大小',
+    `md5` varchar(100) default null comment '文件MD5',
     `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
     `create_time` timestamp default current_timestamp comment '创建时间',
     `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',

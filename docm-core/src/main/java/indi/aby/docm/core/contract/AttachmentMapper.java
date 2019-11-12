@@ -13,7 +13,8 @@ public interface AttachmentMapper {
     void update(AttachmentEntity attachmentEntity);
     Integer findTotalNum(QueryRequest queryRequest);
     List<AttachmentEntity> findAll(QueryRequest queryRequest);
-    List<AttachmentEntity> findById(IFieldId iFieldId);
+    AttachmentEntity findById(IFieldId iFieldId);
+    List<AttachmentEntity> findByDocmId(ContractEntity docm);
     void delete(IFieldId iFieldId);
 
     AttachmentEntity findByPath(String docPath, String docName);

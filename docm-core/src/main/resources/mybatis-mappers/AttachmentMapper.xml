@@ -9,9 +9,11 @@
     </resultMap>
 
     <insert id="add">
-        insert into t_attachment(id, docm_id, doc_name, doc_path) values
+        insert into t_attachment(id, docm_id, doc_path, doc_name, type
+        , size, md5) values
         <foreach collection="attachments" item="attachment" separator=",">
-            (#{attachment.id}, #{attachment.docmId}, #{attachment.docName}, #{attachment.docPath})
+            (#{attachment.id}, #{attachment.docmId}, #{attachment.docPath}, #{attachment.docName}, #{attachment.type
+            , #{attachment.size}, #{attachment.md5}, )
         </foreach>
     </insert>
     <update id="update"></update>
@@ -21,6 +23,9 @@
     <select id="findTotalNum" resultType="java.lang.Integer"></select>
     <select id="findAll" resultType="indi.aby.docm.core.contract.AttachmentEntity"></select>
     <select id="findById" resultMap="AttachmentEntity">
+        select * from t_attachment where id = #{id}
+    </select>
+    <select id="findByDocmId" resultMap="AttachmentEntity">
         select * from t_attachment where docm_id = #{id}
     </select>
     <select id="findByPath" resultMap="AttachmentEntity">

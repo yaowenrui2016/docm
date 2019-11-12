@@ -12,7 +12,9 @@ public enum ErrorCode implements Status, IEnum {
     OLD_PASSWORD_WRONG("03001012", "原密码不正确"),
     CANNOT_EQUALS_OLD_PASSWORD("03001014", "新密码与原密码一致"),
     USERNAME_ALREADY_EXISTS("03001018", "用户名已存在"),
-    FILE_RESOURCE_EXCEPTION("03001020", "文件资源异常");
+    FILE_RESOURCE_EXCEPTION("03001020", "文件资源异常"),
+    FILE_SAVING_EXCEPTION("03001021", "文件保存失败"),
+    ;
 
     private String code;
     private String message;

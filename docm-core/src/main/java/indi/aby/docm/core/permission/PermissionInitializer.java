@@ -12,6 +12,7 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.*;
@@ -29,35 +30,33 @@ public class PermissionInitializer implements ApplicationRunner {
         Reflections reflections = new Reflections(new ConfigurationBuilder()
                 .setUrls(ClasspathHelper.forPackage("indi.aby.docm.core"))
                 .setScanners(new MethodAnnotationsScanner()));
-        List<PermissionEntity> entities = new ArrayList<>();
-        entities.addAll(extract4Multiple(reflections));    // 扫描Permissions注解提取一个方法上定义的多个权限
-        entities.addAll(extract4Single(reflections));    // 扫描Permission注解提取一个方法上定义的单个权限
-
-        save(entities); // 保存权限
+        Map<String, PermissionEntity> entities = new HashMap<>();
+        extract4Multiple(reflections, entities);    // 扫描Permissions注解提取一个方法上定义的多个权限
+        extract4Single(reflections, entities);    // 扫描Permission注解提取一个方法上定义的单个权限
+        save(entities.values()); // 保存权限
     }
 
-    private Collection<? extends PermissionEntity> extract4Multiple(Reflections reflections) {
-        List<PermissionEntity> entities = new ArrayList<>();
+    private void extract4Multiple(Reflections reflections, Map<String, PermissionEntity> entities) {
         Set<Method> methods = reflections.getMethodsAnnotatedWith(Permissions.class);
         if (methods != null) {
             methods.stream()
                 .forEach(method -> {
                     Permissions permissions = method.getAnnotation(Permissions.class);
                     Arrays.stream(permissions.value())
-                            .forEach(permission -> entities.add(build(permission)));
+                            .forEach(permission -> entities.putIfAbsent(permission.id(), build(permission)));
                 });
         }
-        return entities;
     }
 
-    private Collection<? extends PermissionEntity> extract4Single(Reflections reflections) {
-        List<PermissionEntity> entities = new ArrayList<>();
+    private void extract4Single(Reflections reflections, Map<String, PermissionEntity> entities) {
         Set<Method> methods = reflections.getMethodsAnnotatedWith(Permission.class);
         if (methods != null) {
             methods.stream()
-                .forEach(method -> entities.add(build(method.getAnnotation(Permission.class))));
+                .forEach(method -> {
+                    Permission permission = method.getAnnotation(Permission.class);
+                    entities.putIfAbsent(permission.id(), build(permission));
+                });
         }
-        return entities;
     }
 
     private PermissionEntity build(Permission permission) {
@@ -70,7 +69,7 @@ public class PermissionInitializer implements ApplicationRunner {
         return entity;
     }
 
-    private void save(List<PermissionEntity> entities) {
+    private void save(Collection<PermissionEntity> entities) {
         /* 保存权限是先清除表中的记录，再进行插入 */
         permissionMapper.deleteAll();
         permissionMapper.add(entities);

@@ -34,4 +34,14 @@ public class PayItemEntity extends BaseEntity {
      * 4.凭证时间
      */
     private String credentialTime;
+
+    /**
+     * 5.所属合同
+     */
+    private ContractEntity contract;
+
+    /**
+     * 6.备注
+     */
+    private String desc;
 }

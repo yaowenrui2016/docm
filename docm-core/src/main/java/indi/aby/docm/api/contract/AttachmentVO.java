@@ -27,6 +27,21 @@ public class AttachmentVO extends BaseVO {
      */
     private String docName;
 
+    /**
+     * 4.文件类型
+     */
+    private String type;
+
+    /**
+     * 5.文件大小
+     */
+    private Long size;
+
+    /**
+     * 6.文件MD5
+     */
+    private String md5;
+
     public AttachmentVO(String docPath, String docName) {
         this.docPath = docPath;
         this.docName = docName;

@@ -46,9 +46,9 @@ public class ContractEntity extends BaseEntity {
     private String contractTime;
 
     /**
-     * 7.备注
+     * 7.付款项
      */
-    private String desc;
+    private List<PayItemEntity> payItems;
 
     /**
      * 8.总金额
@@ -59,4 +59,9 @@ public class ContractEntity extends BaseEntity {
      * 9.附件
      */
     private List<AttachmentVO> attachments;
+
+    /**
+     * 10.备注
+     */
+    private String desc;
 }
