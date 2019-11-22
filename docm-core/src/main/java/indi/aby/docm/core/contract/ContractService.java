@@ -9,9 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
-import indi.aby.docm.api.contract.AttachmentVO;
-import indi.aby.docm.api.contract.ContractVO;
-import indi.aby.docm.api.contract.IContractServiceApi;
 import indi.rui.common.base.dto.IdVO;
 import indi.rui.common.base.field.IFieldIds;
 import indi.rui.common.base.util.SnowflakeIDGenerator;
@@ -24,9 +21,13 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Service
-public class ContractService extends AbstractService<ContractMapper, ContractEntity, ContractVO> implements IContractServiceApi {
+public class ContractService
+        extends AbstractService<ContractMapper, ContractEntity, ContractVO>
+        implements IContractApi {
     @Autowired
     private AttachmentMapper attachmentMapper;
+    @Autowired
+    private PayItemMapper payItemMapper;
 
     @Override
     @Autowired
@@ -39,7 +40,8 @@ public class ContractService extends AbstractService<ContractMapper, ContractEnt
     public void add(ContractVO contractVO) {
         ContractEntity entity = BeanUtil.copyProperties(contractVO, ContractEntity.class);
         entity.setId(String.valueOf(SnowflakeIDGenerator.genId()));
-        saveAttachments(entity); // 保存附件
+        /* 保存附件 */
+        saveAttachments(entity);
         mapper.add(entity);
     }
 
@@ -49,7 +51,8 @@ public class ContractService extends AbstractService<ContractMapper, ContractEnt
         ContractEntity entity = BeanUtil.copyProperties(vo, ContractEntity.class);
         Map<String, Object> nullAbles = entity.getNullAbles();
         nullAbles.put("dept", true);
-        saveAttachments(entity); // 保存附件
+        /* 保存附件 */
+        saveAttachments(entity);
         mapper.update(entity);
     }
 
@@ -79,7 +82,12 @@ public class ContractService extends AbstractService<ContractMapper, ContractEnt
     }
 
     @Override
-    public List<String> findAllType() {
+    public List<String> getAllType() {
         return mapper.findAllType();
+    }
+
+    @Override
+    public void addPayItem(PayItemVO vo) {
+        payItemMapper.add(BeanUtil.copyProperties(vo, PayItemEntity.class));
     }
 }

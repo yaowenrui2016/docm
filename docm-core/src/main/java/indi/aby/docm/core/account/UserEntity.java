@@ -2,8 +2,7 @@ package indi.aby.docm.core.account;
 
 import java.util.List;
 
-import indi.aby.docm.api.account.DeptVO;
-import indi.aby.docm.api.permission.PermissionVO;
+import indi.aby.docm.core.permission.PermissionVO;
 import indi.rui.common.web.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;

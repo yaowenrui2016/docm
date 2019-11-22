@@ -3,8 +3,7 @@ package indi.aby.docm.core.contract;
 import java.math.BigDecimal;
 import java.util.List;
 
-import indi.aby.docm.api.account.DeptVO;
-import indi.aby.docm.api.contract.AttachmentVO;
+import indi.aby.docm.core.account.DeptVO;
 import indi.rui.common.web.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;

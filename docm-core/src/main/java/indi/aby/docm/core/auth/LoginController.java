@@ -1,9 +1,8 @@
 package indi.aby.docm.core.auth;
 
-import indi.aby.docm.api.auth.IAuthServiceApi;
-import indi.aby.docm.api.account.UserVO;
-import indi.aby.docm.api.operlog.annotation.OperLog;
-import indi.aby.docm.api.operlog.constant.OperName;
+import indi.aby.docm.core.account.UserVO;
+import indi.aby.docm.core.operlog.annotation.OperLog;
+import indi.aby.docm.core.operlog.constant.OperName;
 import indi.rui.common.base.dto.Response;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;

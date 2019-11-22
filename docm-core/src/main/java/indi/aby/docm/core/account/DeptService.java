@@ -5,8 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import indi.aby.docm.api.account.DeptVO;
-import indi.aby.docm.api.account.IDeptApi;
 import indi.rui.common.base.util.StringUtil;
 import indi.rui.common.web.AbstractService;
 import indi.rui.common.web.util.BeanUtil;

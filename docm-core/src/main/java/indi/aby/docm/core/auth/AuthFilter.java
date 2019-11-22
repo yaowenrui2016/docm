@@ -19,9 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import indi.aby.docm.api.account.UserHelper;
-import indi.aby.docm.api.auth.IAuthServiceApi;
-import indi.aby.docm.api.auth.UserSummaryVO;
+import indi.aby.docm.core.account.UserHelper;
 import indi.rui.common.base.util.StringUtil;
 import lombok.extern.slf4j.Slf4j;
 

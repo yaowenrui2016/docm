@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component
 public class ClearnTmpFileJob {
     @Autowired
-    private DownloadService downloadService;
+    private Download downloadService;
 
     @Scheduled(cron = "0 0 2 * * ?")
     public void run() {

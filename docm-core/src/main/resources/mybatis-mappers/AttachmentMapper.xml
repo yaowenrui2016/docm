@@ -6,14 +6,15 @@
         <result column="docm_id" property="docmId"/>
         <result column="doc_path" property="docPath"/>
         <result column="doc_name" property="docName"/>
+        <result column="type" property="type"/>
+        <result column="size" property="size"/>
+        <result column="md5" property="md5"/>
     </resultMap>
 
     <insert id="add">
-        insert into t_attachment(id, docm_id, doc_path, doc_name, type
-        , size, md5) values
+        insert into t_attachment(id, docm_id, doc_path, doc_name, type, size, md5) values
         <foreach collection="attachments" item="attachment" separator=",">
-            (#{attachment.id}, #{attachment.docmId}, #{attachment.docPath}, #{attachment.docName}, #{attachment.type
-            , #{attachment.size}, #{attachment.md5}, )
+            (#{attachment.id}, #{attachment.docmId}, #{attachment.docPath}, #{attachment.docName}, #{attachment.type}, #{attachment.size}, #{attachment.md5})
         </foreach>
     </insert>
     <update id="update"></update>

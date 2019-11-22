@@ -1,11 +1,11 @@
 package indi.aby.docm.core.contract;
 
-import indi.aby.docm.api.contract.IContractServiceApi;
-import indi.aby.docm.api.contract.ContractVO;
-import indi.aby.docm.api.operlog.constant.OperName;
-import indi.aby.docm.api.operlog.annotation.OperLog;
-import indi.aby.docm.api.permission.annotation.Permission;
+import indi.aby.docm.core.operlog.constant.OperName;
+import indi.aby.docm.core.operlog.annotation.OperLog;
+import indi.aby.docm.core.permission.annotation.Permission;
 import indi.rui.common.base.dto.*;
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +15,24 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("docm")
 public class ContractController {
+    @Getter
+    @Setter
     @Autowired
-    private IContractServiceApi docmServiceApi;
+    private IContractApi contractApi;
 
     @PutMapping
     @OperLog(name = OperName.ADD, module = "contract")
     @Permission(id = "DOCM_ADD_OPER", name = "项目合同_新建权限", validator = "simplePermValidator", module = "项目合同", desc = "新建合同")
-    public Response<?> add(@RequestBody ContractVO contractVO) {
-        docmServiceApi.add(contractVO);
+    public Response<?> add(@RequestBody ContractVO vo) {
+        getContractApi().add(vo);
+        return Response.ok();
+    }
+
+    @PutMapping("pay-item")
+    @OperLog(name = OperName.ADD, module = "contract")
+    @Permission(id = "DOCM_EDIT_OPER", name = "项目合同_编辑权限", validator = "simplePermValidator", module = "项目合同", desc = "编辑合同")
+    public Response<?> addPayItem(@RequestBody PayItemVO vo) {
+        getContractApi().addPayItem(vo);
         return Response.ok();
     }
 
@@ -30,7 +40,7 @@ public class ContractController {
     @OperLog(name = OperName.UPDATE, module = "contract")
     @Permission(id = "DOCM_EDIT_OPER", name = "项目合同_编辑权限", validator = "simplePermValidator", module = "项目合同", desc = "编辑合同")
     public Response<?> edit(@RequestBody ContractVO contractVO) {
-        docmServiceApi.edit(contractVO);
+        getContractApi().edit(contractVO);
         return Response.ok();
     }
 
@@ -39,26 +49,26 @@ public class ContractController {
     @Permission(id = "DOCM_LIST_VIEW", name = "项目合同_查询列表权限", validator = "simplePermValidator", module = "项目合同", desc = "可以查询所有科室的合同列表")
     @Permission(id = "DOCM_LIST_DEPT_VIEW", name = "项目合同_仅本科室查询列表权限", validator = "docmListByDept", module = "项目合同", desc = "仅可以查询本科室的合同列表")
     public Response<QueryResult<ContractVO>> list(@RequestBody QueryRequest queryRequest) {
-        return Response.ok(docmServiceApi.list(queryRequest));
+        return Response.ok(getContractApi().list(queryRequest));
     }
 
     @GetMapping
     @OperLog(name = OperName.VIEW, module = "contract")
     @Permission(id = "DOCM_DETAIL_VIEW", name = "项目合同_查看详情权限", validator = "simplePermValidator", module = "项目合同", desc = "查看合同的详情")
     public Response<ContractVO> get(@ModelAttribute IdVO idVO) {
-        return Response.ok(docmServiceApi.get(idVO));
+        return Response.ok(getContractApi().get(idVO));
     }
 
     @DeleteMapping
     @OperLog(name = OperName.DELETE, module = "contract")
     @Permission(id = "DOCM_DELETE_OPER", name = "项目合同_删除权限", validator = "simplePermValidator", module = "项目合同", desc = "删除合同记录（包括上传的文件）")
     public Response<?> delete(@ModelAttribute IdsVO idsVO) {
-        docmServiceApi.delete(idsVO);
+        getContractApi().delete(idsVO);
         return Response.ok();
     }
 
     @GetMapping("type/list")
     public Response<?> type() {
-        return Response.ok(docmServiceApi.findAllType());
+        return Response.ok(getContractApi().getAllType());
     }
 }

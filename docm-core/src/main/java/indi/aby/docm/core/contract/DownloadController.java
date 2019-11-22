@@ -1,7 +1,6 @@
 package indi.aby.docm.core.contract;
 
-import indi.aby.docm.api.contract.IDownloadServiceApi;
-import indi.aby.docm.api.permission.annotation.Permission;
+import indi.aby.docm.core.permission.annotation.Permission;
 import indi.rui.common.base.dto.IdVO;
 import indi.rui.common.base.dto.Response;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +18,7 @@ import java.util.List;
 @RequestMapping("doc")
 public class DownloadController {
     @Autowired
-    private IDownloadServiceApi downloadServiceApi;
+    private IDownloadApi downloadServiceApi;
 
     /**
      * 上传附件

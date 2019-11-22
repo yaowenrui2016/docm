@@ -7,6 +7,7 @@
         <result column="money" property="money"/>
         <result column="credential_num" property="credentialNum"/>
         <result column="credential_time" property="credentialTime"/>
+        <result column="contract_id" property="contractId"/>
         <result column="desc" property="desc"/>
     </resultMap>
 
@@ -16,7 +17,7 @@
         contract_id, desc)
         values (#{id}, #{order},
         #{money}, #{credentialNum}, #{credentialTime},
-        #{contract.id}, #{desc})
+        #{contractId}, #{desc})
     </insert>
     <delete id="delete">
         delete from t_pay_item where id = #{id}

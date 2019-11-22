@@ -1,11 +1,8 @@
 package indi.aby.docm.core.account;
 
-import indi.aby.docm.api.account.IAccountServiceApi;
-import indi.aby.docm.api.account.UserHelper;
-import indi.aby.docm.api.permission.PermissionVO;
-import indi.aby.docm.api.account.UserModPwdVO;
-import indi.aby.docm.api.auth.UserSummaryVO;
-import indi.aby.docm.api.util.ErrorCode;
+import indi.aby.docm.core.permission.PermissionVO;
+import indi.aby.docm.core.auth.UserSummaryVO;
+import indi.aby.docm.util.ErrorCode;
 import indi.rui.common.base.dto.DefaultStatus;
 import indi.rui.common.base.field.IFieldId;
 import indi.rui.common.base.util.StringUtil;

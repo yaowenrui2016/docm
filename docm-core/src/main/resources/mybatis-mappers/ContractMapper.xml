@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="indi.aby.docm.core.contract.ContractMapper">
-    <resultMap id="DocmEntity" type="indi.aby.docm.core.contract.ContractEntity"
+    <resultMap id="ContractEntity" type="indi.aby.docm.core.contract.ContractEntity"
                extends="indi.rui.common.web.dao.IMapper.AbstractData">
         <result column="project_name" property="projectName"/>
         <result column="project_type" property="projectType"/>
@@ -9,27 +9,37 @@
         <result column="contract_num" property="contractNum"/>
         <result column="contract_time" property="contractTime"/>
         <result column="money" property="money"/>
+        <result column="desc" property="desc"/>
         <association column="dept" property="dept" resultMap="indi.aby.docm.core.account.UserMapper.DeptVO"/>
-        <collection notNullColumn="attachment_id" property="attachments" ofType="indi.aby.docm.api.contract.AttachmentVO"
+        <collection notNullColumn="attachment_id" property="attachments" ofType="indi.aby.docm.core.contract.AttachmentVO"
                     resultMap="AttachmentVO"/>
+        <collection notNullColumn="pay_item_id" property="payItems" ofType="indi.aby.docm.core.contract.PayItemEntity"
+                    resultMap="PayItemEntity"/>
     </resultMap>
-    <resultMap id="AttachmentVO" type="indi.aby.docm.api.contract.AttachmentVO"
+    <resultMap id="AttachmentVO" type="indi.aby.docm.core.contract.AttachmentVO"
                extends="indi.rui.common.web.dao.IMapper.AbstractData">
         <id column="attachment_id" property="id"/>
         <result column="docm_id" property="docmId"/>
         <result column="doc_path" property="docPath"/>
         <result column="doc_name" property="docName"/>
+        <result column="type" property="type"/>
+        <result column="size" property="size"/>
+        <result column="md5" property="md5"/>
+    </resultMap>
+    <resultMap id="PayItemEntity" type="indi.aby.docm.core.contract.PayItemEntity"
+               extends="indi.rui.common.web.dao.IMapper.AbstractData">
+        <id column="pay_item_id" property="id"/>
+        <result column="order" property="order"/>
+        <result column="pay_item_money" property="money"/>
+        <result column="credential_num" property="credentialNum"/>
+        <result column="credential_time" property="credentialTime"/>
+        <result column="contract_id" property="contractId"/>
+        <result column="pay_item_desc" property="desc"/>
     </resultMap>
 
     <insert id="add">
-        insert into t_docm (id, name, project_name,
-        project_type, company, contract_num,
-        contract_time, credential_num, credential_time,
-        money, dept_id)
-        values (#{id}, #{name}, #{projectName},
-        #{projectType}, #{company}, #{contractNum},
-        #{contractTime}, #{credentialNum}, #{credentialTime},
-        #{money}, #{dept.id})
+        insert into t_docm (id, name, project_name, project_type, company, contract_num, contract_time, money, dept_id)
+        values (#{id}, #{name}, #{projectName}, #{projectType}, #{company}, #{contractNum}, #{contractTime}, #{money}, #{dept.id})
     </insert>
     <update id="update">
         update t_docm
@@ -48,12 +58,6 @@
             </if>
             <if test="contractTime != null || nullAbles.contractTime">
                 contract_time = #{contractTime},
-            </if>
-            <if test="credentialNum != null || nullAbles.credentialNum">
-                credential_num = #{credentialNum},
-            </if>
-            <if test="credentialTime != null || nullAbles.credentialTime">
-                credential_time = #{credentialTime},
             </if>
             <if test="money != null || nullAbles.money">
                 money = #{money},
@@ -101,8 +105,8 @@
             and docm.dept_id = #{conditions.dept.id}
         </if>
     </select>
-    <select id="findAll" resultMap="DocmEntity">
-        select sub.*, attachment.id attachment_id, attachment.docm_id, attachment.doc_path, attachment.doc_name
+    <select id="findAll" resultMap="ContractEntity">
+        select sub.*, attachment.*, attachment.id attachment_id, pi.*, pi.id pay_item_id
         from (
             select docm.*, dept.name dept_name
             from t_docm docm
@@ -138,6 +142,7 @@
             </choose>
             limit #{offset}, #{pageSize}) as sub
         left join t_attachment attachment on sub.id = attachment.docm_id
+        left join t_pay_item pi on pi.contract_id = sub.id
         order by
         <choose>
             <when test="sorters.size > 0">
@@ -150,11 +155,13 @@
             </otherwise>
         </choose>
     </select>
-    <select id="findById" resultMap="DocmEntity">
-        select *, dept.name dept_name, attachment.id attachment_id
+    <select id="findById" resultMap="ContractEntity">
+        select docm.*, dept.id dept_id, dept.name dept_name, attachment.*, attachment.id attachment_id,
+        pi.id pay_item_id, pi.money pay_item_money, pi.desc pay_item_desc
         from t_docm docm
         left join t_dept dept on docm.dept_id = dept.id
-        left join t_attachment attachment on docm.id = attachment.docm_id
+        left join t_attachment attachment on attachment.docm_id = docm.id
+        left join t_pay_item pi on pi.contract_id = docm.id
         where docm.id = #{id}
     </select>
     <select id="findAllType" resultType="java.lang.String">

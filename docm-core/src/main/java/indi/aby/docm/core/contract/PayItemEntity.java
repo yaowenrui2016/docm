@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 public class PayItemEntity extends BaseEntity {
-
     /**
      * 1.序号
      */
@@ -38,7 +37,7 @@ public class PayItemEntity extends BaseEntity {
     /**
      * 5.所属合同
      */
-    private ContractEntity contract;
+    private String contractId;
 
     /**
      * 6.备注

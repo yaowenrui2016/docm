@@ -1,7 +1,7 @@
 package indi.aby.docm.core.permission;
 
-import indi.aby.docm.api.permission.annotation.Permission;
-import indi.aby.docm.api.permission.annotation.Permissions;
+import indi.aby.docm.core.permission.annotation.Permission;
+import indi.aby.docm.core.permission.annotation.Permissions;
 import lombok.extern.slf4j.Slf4j;
 import org.reflections.Reflections;
 import org.reflections.scanners.MethodAnnotationsScanner;
@@ -12,11 +12,9 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.CollectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Component

@@ -1,10 +1,7 @@
 package indi.aby.docm.core.account;
 
-import indi.aby.docm.api.account.IAccountManageServiceApi;
-import indi.aby.docm.api.permission.PermissionVO;
-import indi.aby.docm.api.account.UserVO;
-import indi.aby.docm.api.util.ErrorCode;
-import indi.rui.common.base.dto.DefaultStatus;
+import indi.aby.docm.core.permission.PermissionVO;
+import indi.aby.docm.util.ErrorCode;
 import indi.rui.common.base.dto.IdVO;
 import indi.rui.common.base.dto.QueryRequest;
 import indi.rui.common.base.dto.QueryResult;

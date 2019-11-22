@@ -1,10 +1,8 @@
 package indi.aby.docm.core.auth;
 
-import indi.aby.docm.api.account.UserHelper;
-import indi.aby.docm.api.auth.IAuthServiceApi;
-import indi.aby.docm.api.auth.UserSummaryVO;
-import indi.aby.docm.api.account.UserVO;
-import indi.aby.docm.api.util.ErrorCode;
+import indi.aby.docm.core.account.UserHelper;
+import indi.aby.docm.core.account.UserVO;
+import indi.aby.docm.util.ErrorCode;
 import indi.aby.docm.core.account.UserMapper;
 import indi.aby.docm.core.account.UserEntity;
 import indi.rui.common.base.dto.DefaultStatus;

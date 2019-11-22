@@ -1,7 +1,7 @@
 package indi.aby.docm.config;
 
-import indi.aby.docm.api.auth.IAuthServiceApi;
-import indi.aby.docm.api.operlog.InitOperLogFilter;
+import indi.aby.docm.core.auth.IAuthServiceApi;
+import indi.aby.docm.core.operlog.InitOperLogFilter;
 import indi.aby.docm.core.auth.AuthFilter;
 import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;

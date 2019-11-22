@@ -9,11 +9,11 @@
         <result column="email" property="email"/>
         <result column="activate" property="activate"/>
         <result column="frozen" property="frozen"/>
-        <association column="dept_id" property="dept" javaType="indi.aby.docm.api.account.DeptVO" resultMap="DeptVO"/>
+        <association column="dept_id" property="dept" javaType="indi.aby.docm.core.account.DeptVO" resultMap="DeptVO"/>
         <collection notNullColumn="permission_id" property="permissions"
-                    ofType="indi.aby.docm.api.permission.PermissionVO" resultMap="PermissionVO"/>
+                    ofType="indi.aby.docm.core.permission.PermissionVO" resultMap="PermissionVO"/>
     </resultMap>
-    <resultMap id="DeptVO" type="indi.aby.docm.api.account.DeptVO">
+    <resultMap id="DeptVO" type="indi.aby.docm.core.account.DeptVO">
         <result column="dept_id" property="id"/>
         <result column="dept_name" property="name"/>
     </resultMap>
@@ -22,7 +22,7 @@
         <result column="module" property="module"/>
         <result column="desc" property="desc"/>
     </resultMap>
-    <resultMap id="PermissionVO" type="indi.aby.docm.api.permission.PermissionVO"
+    <resultMap id="PermissionVO" type="indi.aby.docm.core.permission.PermissionVO"
                extends="indi.rui.common.web.dao.IMapper.AbstractData">
         <id column="permission_id" property="id"/>
         <result column="permission_name" property="name"/>

@@ -4,8 +4,6 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.*;
 
-import indi.aby.docm.api.account.DeptVO;
-import indi.aby.docm.api.account.IDeptApi;
 import indi.aby.docm.core.AbstractController;
 import indi.rui.common.base.dto.Response;
 

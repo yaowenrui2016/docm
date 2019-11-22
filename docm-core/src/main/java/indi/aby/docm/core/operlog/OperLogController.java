@@ -1,8 +1,7 @@
 package indi.aby.docm.core.operlog;
 
-import indi.aby.docm.api.operlog.IOperLogServiceApi;
-import indi.aby.docm.api.operlog.dto.OperLogVO;
-import indi.aby.docm.api.permission.PermissionGroupedVO;
+import indi.aby.docm.core.operlog.dto.OperLogVO;
+import indi.aby.docm.core.permission.PermissionGroupedVO;
 import indi.aby.docm.core.AbstractController;
 import indi.rui.common.base.dto.Response;
 import org.springframework.web.bind.annotation.GetMapping;
