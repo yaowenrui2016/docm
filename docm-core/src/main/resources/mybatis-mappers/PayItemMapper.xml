@@ -12,9 +12,9 @@
     </resultMap>
 
     <insert id="add">
-        insert into t_pay_item (id, order,
+        insert into t_pay_item (id, `order`,
         money, credential_num, credential_time,
-        contract_id, desc)
+        contract_id, `desc`)
         values (#{id}, #{order},
         #{money}, #{credentialNum}, #{credentialTime},
         #{contractId}, #{desc})

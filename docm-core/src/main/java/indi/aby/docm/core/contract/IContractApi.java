@@ -1,5 +1,6 @@
 package indi.aby.docm.core.contract;
 
+import indi.rui.common.base.dto.IdsVO;
 import indi.rui.common.web.IApi;
 
 import java.util.List;
@@ -19,4 +20,10 @@ public interface IContractApi extends IApi<ContractVO> {
      * @param vo
      */
     void addPayItem(PayItemVO vo);
+
+    /**
+     * 删除付款项
+     * @param idsVO
+     */
+    void deletePayItem(IdsVO idsVO);
 }

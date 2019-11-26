@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import indi.rui.common.base.dto.IdsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,6 +89,16 @@ public class ContractService
 
     @Override
     public void addPayItem(PayItemVO vo) {
+        vo.setId(String.valueOf(SnowflakeIDGenerator.genId()));
         payItemMapper.add(BeanUtil.copyProperties(vo, PayItemEntity.class));
+    }
+
+    @Override
+    public void deletePayItem(IdsVO idsVO) {
+        if (!CollectionUtils.isEmpty(idsVO.getIds())) {
+            for (String id : idsVO.getIds()) {
+                payItemMapper.delete(IdVO.ofId(id));
+            }
+        }
     }
 }

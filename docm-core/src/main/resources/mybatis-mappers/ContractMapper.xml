@@ -157,12 +157,13 @@
     </select>
     <select id="findById" resultMap="ContractEntity">
         select docm.*, dept.id dept_id, dept.name dept_name, attachment.*, attachment.id attachment_id,
-        pi.id pay_item_id, pi.money pay_item_money, pi.desc pay_item_desc
+        pi.id pay_item_id, pi.order, pi.money pay_item_money, pi.desc pay_item_desc
         from t_docm docm
         left join t_dept dept on docm.dept_id = dept.id
         left join t_attachment attachment on attachment.docm_id = docm.id
         left join t_pay_item pi on pi.contract_id = docm.id
         where docm.id = #{id}
+        order by pi.order
     </select>
     <select id="findAllType" resultType="java.lang.String">
         select project_type from t_docm where project_type is not null group by project_type

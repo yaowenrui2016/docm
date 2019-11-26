@@ -67,6 +67,14 @@ public class ContractController {
         return Response.ok();
     }
 
+    @DeleteMapping("pay-item")
+    @OperLog(name = OperName.DELETE, module = "contract")
+    @Permission(id = "DOCM_EDIT_OPER", name = "项目合同_编辑权限", validator = "simplePermValidator", module = "项目合同", desc = "编辑合同")
+    public Response<?> deletePayItem(@ModelAttribute IdsVO idsVO) {
+        getContractApi().deletePayItem(idsVO);
+        return Response.ok();
+    }
+
     @GetMapping("type/list")
     public Response<?> type() {
         return Response.ok(getContractApi().getAllType());
