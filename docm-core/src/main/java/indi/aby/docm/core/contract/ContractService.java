@@ -94,6 +94,11 @@ public class ContractService
     }
 
     @Override
+    public void editPayItem(PayItemVO vo) {
+        payItemMapper.update(BeanUtil.copyProperties(vo, PayItemEntity.class));
+    }
+
+    @Override
     public void deletePayItem(IdsVO idsVO) {
         if (!CollectionUtils.isEmpty(idsVO.getIds())) {
             for (String id : idsVO.getIds()) {

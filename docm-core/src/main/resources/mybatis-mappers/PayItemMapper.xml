@@ -19,6 +19,27 @@
         #{money}, #{credentialNum}, #{credentialTime},
         #{contractId}, #{desc})
     </insert>
+    <update id="update">
+        update t_pay_item
+        <set>
+            <if test="order != null || nullAbles.order">
+                `order` = #{order},
+            </if>
+            <if test="money != null || nullAbles.money">
+                money = #{money},
+            </if>
+            <if test="credentialNum != null || nullAbles.credentialNum">
+                credential_num = #{credentialNum},
+            </if>
+            <if test="credentialTime != null || nullAbles.credentialTime">
+                credential_time = #{credentialTime},
+            </if>
+            <if test="desc != null || nullAbles.desc">
+                `desc` = #{desc},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
     <delete id="delete">
         delete from t_pay_item where id = #{id}
     </delete>

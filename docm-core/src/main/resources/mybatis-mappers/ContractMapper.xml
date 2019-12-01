@@ -121,6 +121,10 @@
                 <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
                     docm.company like '%${keyword}%'
                 </foreach>
+                ||
+                <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                    docm.money like '%${keyword}%'
+                </foreach>
                 )
             </if>
             <if test="conditions.projectType != null">

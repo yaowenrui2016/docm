@@ -28,14 +28,6 @@ public class ContractController {
         return Response.ok();
     }
 
-    @PutMapping("pay-item")
-    @OperLog(name = OperName.ADD, module = "contract")
-    @Permission(id = "DOCM_EDIT_OPER", name = "项目合同_编辑权限", validator = "simplePermValidator", module = "项目合同", desc = "编辑合同")
-    public Response<?> addPayItem(@RequestBody PayItemVO vo) {
-        getContractApi().addPayItem(vo);
-        return Response.ok();
-    }
-
     @PostMapping
     @OperLog(name = OperName.UPDATE, module = "contract")
     @Permission(id = "DOCM_EDIT_OPER", name = "项目合同_编辑权限", validator = "simplePermValidator", module = "项目合同", desc = "编辑合同")
@@ -67,16 +59,35 @@ public class ContractController {
         return Response.ok();
     }
 
+    @GetMapping("type/list")
+    public Response<?> type() {
+        return Response.ok(getContractApi().getAllType());
+    }
+
+
+    //---------付款项----------//
+
+    @PutMapping("pay-item")
+    @OperLog(name = OperName.ADD, module = "contract")
+    @Permission(id = "DOCM_EDIT_OPER", name = "项目合同_编辑权限", validator = "simplePermValidator", module = "项目合同", desc = "编辑合同")
+    public Response<?> addPayItem(@RequestBody PayItemVO vo) {
+        getContractApi().addPayItem(vo);
+        return Response.ok();
+    }
+
+    @PostMapping("pay-item")
+    @OperLog(name = OperName.ADD, module = "contract")
+    @Permission(id = "DOCM_EDIT_OPER", name = "项目合同_编辑权限", validator = "simplePermValidator", module = "项目合同", desc = "编辑合同")
+    public Response<?> editPayItem(@RequestBody PayItemVO vo) {
+        getContractApi().editPayItem(vo);
+        return Response.ok();
+    }
+
     @DeleteMapping("pay-item")
     @OperLog(name = OperName.DELETE, module = "contract")
     @Permission(id = "DOCM_EDIT_OPER", name = "项目合同_编辑权限", validator = "simplePermValidator", module = "项目合同", desc = "编辑合同")
     public Response<?> deletePayItem(@ModelAttribute IdsVO idsVO) {
         getContractApi().deletePayItem(idsVO);
         return Response.ok();
-    }
-
-    @GetMapping("type/list")
-    public Response<?> type() {
-        return Response.ok(getContractApi().getAllType());
     }
 }

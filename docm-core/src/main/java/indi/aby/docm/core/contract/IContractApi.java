@@ -22,6 +22,12 @@ public interface IContractApi extends IApi<ContractVO> {
     void addPayItem(PayItemVO vo);
 
     /**
+     * 更新付款项
+     * @param vo
+     */
+    void editPayItem(PayItemVO vo);
+
+    /**
      * 删除付款项
      * @param idsVO
      */
