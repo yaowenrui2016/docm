@@ -35,12 +35,17 @@ public class PayItemEntity extends BaseEntity {
     private String credentialTime;
 
     /**
-     * 5.所属合同
+     * 5.付款时间
+     */
+    private String payTime;
+
+    /**
+     * 6.所属合同
      */
     private String contractId;
 
     /**
-     * 6.备注
+     * 7.备注
      */
     private String desc;
 }

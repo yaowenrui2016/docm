@@ -33,13 +33,14 @@
         <result column="pay_item_money" property="money"/>
         <result column="credential_num" property="credentialNum"/>
         <result column="credential_time" property="credentialTime"/>
+        <result column="pay_time" property="payTime"/>
         <result column="contract_id" property="contractId"/>
         <result column="pay_item_desc" property="desc"/>
     </resultMap>
 
     <insert id="add">
-        insert into t_docm (id, name, project_name, project_type, company, contract_num, contract_time, money, dept_id)
-        values (#{id}, #{name}, #{projectName}, #{projectType}, #{company}, #{contractNum}, #{contractTime}, #{money}, #{dept.id})
+        insert into t_docm (id, name, project_name, project_type, company, contract_num, contract_time, money, dept_id, `desc`)
+        values (#{id}, #{name}, #{projectName}, #{projectType}, #{company}, #{contractNum}, #{contractTime}, #{money}, #{dept.id}, #{desc})
     </insert>
     <update id="update">
         update t_docm
@@ -79,6 +80,9 @@
                     </if>
                 </otherwise>
             </choose>
+            <if test="desc != null || nullAbles.desc">
+                `desc` = #{desc},
+            </if>
         </set>
         where id = #{id}
     </update>
@@ -161,7 +165,7 @@
     </select>
     <select id="findById" resultMap="ContractEntity">
         select docm.*, dept.id dept_id, dept.name dept_name, attachment.*, attachment.id attachment_id,
-        pi.id pay_item_id, pi.order, pi.money pay_item_money, pi.desc pay_item_desc
+        pi.id pay_item_id, pi.order, pi.money pay_item_money, pi.credential_num, pi.credential_time, pi.pay_time, pi.desc pay_item_desc
         from t_docm docm
         left join t_dept dept on docm.dept_id = dept.id
         left join t_attachment attachment on attachment.docm_id = docm.id

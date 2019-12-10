@@ -1,6 +1,6 @@
 create table if not exists t_account (
     `id` varchar(32) not null comment 'id',
-    `name` varchar(50) default null comment '名称',
+    `name` varchar(200) default null comment '名称',
     `username` varchar(50) default null comment '登录名',
     `password` varchar(50) default null comment '密码',
     `phone` varchar(20) default null comment '手机',
@@ -20,7 +20,7 @@ insert into t_account(id, username, password, isBuiltIn, activate) values('19071
 
 create table if not exists t_dept (
     `id` varchar(32) not null comment 'id',
-    `name` varchar(50) default null comment '科室名称',
+    `name` varchar(200) default null comment '科室名称',
     `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
     `create_time` timestamp default current_timestamp comment '创建时间',
     `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',
@@ -30,16 +30,17 @@ create table if not exists t_dept (
 
 create table if not exists t_docm (
     `id` varchar(32) not null comment 'id',
-    `name` varchar(50) default null comment '名称',
-    `project_name` varchar(50) default null comment '项目名称',
-    `project_type` varchar(50) default null comment '项目类型',
-    `company` varchar(50) default null comment '公司名称',
+    `name` varchar(200) default null comment '名称',
+    `project_name` varchar(200) default null comment '项目名称',
+    `project_type` varchar(100) default null comment '项目类型',
+    `company` varchar(200) default null comment '公司名称',
     `contract_num` varchar(50) default null comment '合同号',
     `contract_time` varchar(50) default null comment '合同签订时间',
     `credential_num` varchar(50) default null comment '凭证号',
     `credential_time` varchar(50) default null comment '凭证时间',
     `money` bigint default null comment '金额',
-    `dept_id` varchar(20) default null comment '所属科室',
+    `dept_id` varchar(100) default null comment '所属科室',
+    `desc` varchar(2000) default null comment '备注',
     `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
     `create_time` timestamp default current_timestamp comment '创建时间',
     `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',
@@ -51,9 +52,10 @@ create table if not exists t_pay_item (
     `order` int(4) default null comment '序号',
     `credential_num` varchar(50) default null comment '凭证号',
     `credential_time` varchar(50) default null comment '凭证时间',
+    `pay_time` varchar(50) default null comment '付款时间',
     `money` bigint default null comment '金额',
     `contract_id` varchar(20) default null comment '所属合同',
-    `desc` varchar(255) default null comment '备注',
+    `desc` varchar(2000) default null comment '备注',
     `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
     `create_time` timestamp default current_timestamp comment '创建时间',
     `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',
@@ -77,9 +79,9 @@ create table if not exists t_attachment (
 
 create table if not exists t_permission (
     `id` varchar(32) not null comment 'id',
-    `name` varchar(50) default null comment '名称',
+    `name` varchar(100) default null comment '名称',
     `module` varchar(50) default null comment '模块',
-    `desc` varchar(256) default null comment '描述',
+    `desc` varchar(255) default null comment '描述',
     `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
     `create_time` timestamp default current_timestamp comment '创建时间',
     `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',

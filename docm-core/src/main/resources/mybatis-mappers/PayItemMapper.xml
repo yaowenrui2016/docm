@@ -12,12 +12,7 @@
     </resultMap>
 
     <insert id="add">
-        insert into t_pay_item (id, `order`,
-        money, credential_num, credential_time,
-        contract_id, `desc`)
-        values (#{id}, #{order},
-        #{money}, #{credentialNum}, #{credentialTime},
-        #{contractId}, #{desc})
+        insert into t_pay_item (id, `order`, money, credential_num, credential_time, pay_time, contract_id, `desc`) values (#{id}, #{order}, #{money}, #{credentialNum}, #{credentialTime}, #{payTime}, #{contractId}, #{desc})
     </insert>
     <update id="update">
         update t_pay_item
@@ -33,6 +28,9 @@
             </if>
             <if test="credentialTime != null || nullAbles.credentialTime">
                 credential_time = #{credentialTime},
+            </if>
+            <if test="payTime != null || nullAbles.payTime">
+                pay_time = #{payTime},
             </if>
             <if test="desc != null || nullAbles.desc">
                 `desc` = #{desc},
