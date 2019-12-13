@@ -66,7 +66,7 @@ create table if not exists t_attachment (
     `docm_id` varchar(32) not null comment '所属文档管理对象的id',
     `doc_path` varchar(256) default null comment '附件路径',
     `doc_name` varchar(256) default null comment '文件名',
-    `type` varchar(50) default null comment '文件类型',
+    `type` varchar(200) default null comment '文件类型',
     `size` bigint(20) default null comment '文件大小',
     `md5` varchar(100) default null comment '文件MD5',
     `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
