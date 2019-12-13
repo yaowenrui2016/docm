@@ -14,7 +14,8 @@ public enum ErrorCode implements Status, IEnum {
     USERNAME_ALREADY_EXISTS("03001018", "用户名已存在"),
     FILE_RESOURCE_EXCEPTION("03001020", "文件资源异常"),
     FILE_SAVING_EXCEPTION("03001021", "文件保存失败"),
-    ;
+    PROJECT_NAME_EXIST("03001022", "项目名称已存在"),
+    CONTRACT_NUM_EXIST("03001022", "中标编号已存在");
 
     private String code;
     private String message;

@@ -1,9 +1,9 @@
 package indi.aby.docm.core.contract;
 
+import java.util.List;
+
 import indi.rui.common.base.dto.IdsVO;
 import indi.rui.common.web.IApi;
-
-import java.util.List;
 
 /**
  * 合同api
@@ -32,4 +32,11 @@ public interface IContractApi extends IApi<ContractVO> {
      * @param idsVO
      */
     void deletePayItem(IdsVO idsVO);
+
+    /**
+     * 查询合同号
+     * @param contractNum
+     * @return
+     */
+    List<String> findAllContractNum(String contractNum);
 }

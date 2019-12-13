@@ -60,8 +60,13 @@ public class ContractController {
     }
 
     @GetMapping("type/list")
-    public Response<?> type() {
+    public Response<?> types() {
         return Response.ok(getContractApi().getAllType());
+    }
+
+    @PostMapping("contract-num/list")
+    public Response<?> contractNums(@RequestBody ContractVO vo) {
+        return Response.ok(getContractApi().findAllContractNum(vo.getContractNum()));
     }
 
 

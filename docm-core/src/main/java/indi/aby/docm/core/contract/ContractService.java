@@ -4,16 +4,18 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import indi.rui.common.base.dto.IdsVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
+import indi.aby.docm.util.ErrorCode;
 import indi.rui.common.base.dto.IdVO;
+import indi.rui.common.base.dto.IdsVO;
 import indi.rui.common.base.field.IFieldIds;
 import indi.rui.common.base.util.SnowflakeIDGenerator;
 import indi.rui.common.web.AbstractService;
+import indi.rui.common.web.exception.BizException;
 import indi.rui.common.web.util.BeanUtil;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,10 +38,26 @@ public class ContractService
         this.mapper = mapper;
     }
 
+    private void checkUniqueProjectName(ContractVO vo) {
+        ContractEntity entity = mapper.findByProjectName(vo.getProjectName());
+        if(entity != null && !entity.getId().equals(vo.getId())) {
+            throw new BizException(ErrorCode.PROJECT_NAME_EXIST);
+        }
+    }
+
+    private void checkUniqueContractNum(ContractVO vo) {
+        ContractEntity entity = mapper.findByContractNum(vo.getContractNum());
+        if(entity != null && !entity.getId().equals(vo.getId())) {
+            throw new BizException(ErrorCode.CONTRACT_NUM_EXIST);
+        }
+    }
+
     @Transactional
     @Override
-    public void add(ContractVO contractVO) {
-        ContractEntity entity = BeanUtil.copyProperties(contractVO, ContractEntity.class);
+    public void add(ContractVO vo) {
+        checkUniqueProjectName(vo);
+        checkUniqueContractNum(vo);
+        ContractEntity entity = BeanUtil.copyProperties(vo, ContractEntity.class);
         entity.setId(String.valueOf(SnowflakeIDGenerator.genId()));
         /* 保存附件 */
         saveAttachments(entity);
@@ -49,6 +67,8 @@ public class ContractService
     @Transactional
     @Override
     public void edit(ContractVO vo) {
+        checkUniqueProjectName(vo);
+        checkUniqueContractNum(vo);
         ContractEntity entity = BeanUtil.copyProperties(vo, ContractEntity.class);
         Map<String, Object> nullAbles = entity.getNullAbles();
         nullAbles.put("dept", true);
@@ -85,6 +105,11 @@ public class ContractService
     @Override
     public List<String> getAllType() {
         return mapper.findAllType();
+    }
+
+    @Override
+    public List<String> findAllContractNum(String contractNum) {
+        return mapper.findAllContractNum(contractNum);
     }
 
     @Override

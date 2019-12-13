@@ -100,13 +100,20 @@
             <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
                 docm.company like '%${keyword}%'
             </foreach>
+            ||
+            <foreach collection="conditions.keywords" open="(" close=")" item="keyword" separator="and">
+                docm.money like '%${keyword}%'
+            </foreach>
             )
         </if>
         <if test="conditions.projectType != null">
             and docm.project_type = #{conditions.projectType}
         </if>
-        <if test="conditions.dept != null and conditions.dept.id != null">
-            and docm.dept_id = #{conditions.dept.id}
+        <if test="conditions.dept != null">
+            and docm.dept_id = #{conditions.dept}
+        </if>
+        <if test="conditions.contractNum != null">
+            and docm.contract_num = #{conditions.contractNum}
         </if>
     </select>
     <select id="findAll" resultMap="ContractEntity">
@@ -134,8 +141,11 @@
             <if test="conditions.projectType != null">
                 and docm.project_type = #{conditions.projectType}
             </if>
-            <if test="conditions.dept != null and conditions.dept.id != null">
-                and docm.dept_id = #{conditions.dept.id}
+            <if test="conditions.dept != null">
+                and docm.dept_id = #{conditions.dept}
+            </if>
+            <if test="conditions.contractNum != null">
+                and docm.contract_num = #{conditions.contractNum}
             </if>
             order by
             <choose>
@@ -175,6 +185,15 @@
     </select>
     <select id="findAllType" resultType="java.lang.String">
         select project_type from t_docm where project_type is not null group by project_type
+    </select>
+    <select id="findAllContractNum" parameterType="java.lang.String" resultType="java.lang.String">
+        select contract_num from t_docm where contract_num like '${contractNum}%'
+    </select>
+    <select id="findByProjectName" resultMap="ContractEntity">
+        select d.*, null as attachment_id, null as pay_item_id from t_docm d where d.project_name = #{projectName} and d.state = 1
+    </select>
+    <select id="findByContractNum" resultMap="ContractEntity">
+        select d.*, null as attachment_id, null as pay_item_id from t_docm d where d.contract_num = #{contractNum} and d.state = 1
     </select>
     <delete id="delete">
         delete from t_docm where id = #{id}

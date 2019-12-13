@@ -36,8 +36,6 @@ create table if not exists t_docm (
     `company` varchar(200) default null comment '公司名称',
     `contract_num` varchar(50) default null comment '合同号',
     `contract_time` varchar(50) default null comment '合同签订时间',
-    `credential_num` varchar(50) default null comment '凭证号',
-    `credential_time` varchar(50) default null comment '凭证时间',
     `money` bigint default null comment '金额',
     `dept_id` varchar(100) default null comment '所属科室',
     `desc` varchar(2000) default null comment '备注',
