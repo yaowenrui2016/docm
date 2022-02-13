@@ -17,18 +17,33 @@
             (#{attachment.id}, #{attachment.docmId}, #{attachment.docPath}, #{attachment.docName}, #{attachment.type}, #{attachment.size}, #{attachment.md5})
         </foreach>
     </insert>
+
     <update id="update"></update>
-    <delete id="delete">
+
+    <delete id="deleteByDocmId">
         delete from t_attachment where docm_id = #{id}
     </delete>
-    <select id="findTotalNum" resultType="java.lang.Integer"></select>
-    <select id="findAll" resultType="indi.aby.docm.core.contract.AttachmentEntity"></select>
+
+    <delete id="delete">
+        delete from t_attachment where id = #{id}
+    </delete>
+
+    <select id="findTotalNum" resultType="java.lang.Integer">
+        select count(*) from t_attachment
+    </select>
+
+    <select id="findAll" resultMap="AttachmentEntity">
+        select * from t_attachment
+    </select>
+
     <select id="findById" resultMap="AttachmentEntity">
         select * from t_attachment where id = #{id}
     </select>
+
     <select id="findByDocmId" resultMap="AttachmentEntity">
         select * from t_attachment where docm_id = #{id}
     </select>
+
     <select id="findByPath" resultMap="AttachmentEntity">
         select * from t_attachment where doc_path = #{docPath} and doc_name = #{docName}
     </select>
