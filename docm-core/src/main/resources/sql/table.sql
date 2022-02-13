@@ -107,7 +107,7 @@ create table if not exists t_oper_log (
     `method` varchar(20) default null comment 'HTTP方法',
     `url` varchar(255) default null comment 'URL',
     `status` bit default b'0' comment '日志状态：0-未查看 1-已查看',
-    `content` varchar(4000) default null comment '内容',
+    `content` longtext default null comment '内容',
     `state` bit default b'1' comment '状态：1-正常 0-逻辑删除',
     `create_time` timestamp default current_timestamp comment '创建时间',
     `last_modify_time` timestamp null on update current_timestamp comment '最后修改时间',
