@@ -1,5 +1,6 @@
 package indi.aby.docm.core.contract;
 
+import indi.rui.common.base.dto.QueryRequest;
 import indi.rui.common.base.field.IFieldId;
 import indi.rui.common.base.util.DateUtil;
 import indi.rui.common.base.util.FileUtil;
@@ -14,6 +15,10 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -33,17 +38,18 @@ import static indi.aby.docm.util.ErrorCode.*;
 @Slf4j
 @Service
 public class Download implements IDownloadApi, InitializingBean {
+
     @Value("${docm.filePath:./tmp/upload}")
     private String filePath;
-
     @Value("${docm.zipTmpPath:./tmp/zip}")
     private String zipTmpPath;
 
     @Autowired
     private ContractMapper contractMapper;
-
     @Autowired
     private AttachmentMapper attachmentMapper;
+    @Autowired
+    private PlatformTransactionManager transactionManager;
 
     @Override
     public void afterPropertiesSet() throws Exception {
@@ -66,8 +72,9 @@ public class Download implements IDownloadApi, InitializingBean {
         // 可以支持一次传多个文件
         List<AttachmentVO> attachments = new ArrayList<>();
         if (files != null) {
-            attachments = files.stream().map(multipartFile -> {AttachmentVO attachmentVO = new AttachmentVO(File.separator +
-                    DateUtil.now("yyyyMMddHHmmss"), multipartFile.getOriginalFilename());
+            attachments = files.stream().map(multipartFile -> {
+                AttachmentVO attachmentVO = new AttachmentVO(File.separator +
+                        DateUtil.now("yyyyMMddHHmmss"), multipartFile.getOriginalFilename());
                 try {
                     attachmentVO.setType(multipartFile.getContentType());
                     attachmentVO.setSize(multipartFile.getSize());
@@ -165,5 +172,34 @@ public class Download implements IDownloadApi, InitializingBean {
             }
         }
         return cleanedFiles;
+    }
+
+    @Override
+    public List<InvalidAttachInfo> checkInvalidAttach() {
+        List<InvalidAttachInfo> invalidAttachs = new ArrayList<>();
+        QueryRequest request = new QueryRequest();
+        request.setPageSize(3000);
+        List<AttachmentEntity> attachments = attachmentMapper.findAll(request);
+        for (AttachmentEntity entity : attachments) {
+            File file = new File(filePath + entity.getDocPath(), entity.getDocName());
+            if (!file.exists()) {
+                InvalidAttachInfo attachInfo = new InvalidAttachInfo();
+                attachInfo.setPath(file.getAbsolutePath());
+                attachInfo.setAttachId(entity.getId());
+                invalidAttachs.add(attachInfo);
+            }
+        }
+        return invalidAttachs;
+    }
+
+
+    @Override
+    public void deleteInvalidAttach(List<InvalidAttachInfo> attachInfos) {
+        if (CollectionUtils.isEmpty(attachInfos)) {
+            return;
+        }
+        for (InvalidAttachInfo attachInfo : attachInfos) {
+            attachmentMapper.delete(() -> attachInfo.getAttachId());
+        }
     }
 }

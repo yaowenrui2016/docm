@@ -15,4 +15,6 @@ public interface IDownloadApi {
     ResponseEntity zipAllDownload(IFieldId fieldId, HttpServletRequest request);
     ResponseEntity singleDownload(IFieldId fieldId, HttpServletRequest request);
     List<String> clean();
+    List<InvalidAttachInfo> checkInvalidAttach();
+    void deleteInvalidAttach(List<InvalidAttachInfo> attachInfos);
 }
